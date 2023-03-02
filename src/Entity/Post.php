@@ -29,7 +29,7 @@ class Post
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $createAt = null;
+    private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
@@ -45,6 +45,7 @@ class Post
 
     public function __construct()
     {
+		$this->createdAt = new \DateTime();
         $this->comments = new ArrayCollection();
         $this->categories = new ArrayCollection();
     }
@@ -102,14 +103,14 @@ class Post
         return $this;
     }
 
-    public function getCreateAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createAt;
+        return $this->createdAt;
     }
 
-    public function setCreateAt(\DateTimeInterface $createAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->createAt = $createAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -194,4 +195,9 @@ class Post
 
         return $this;
     }
+
+	public function __toString(): string
+	{
+		return $this->title;
+	}
 }

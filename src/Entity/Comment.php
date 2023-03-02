@@ -30,6 +30,10 @@ class Comment
     #[ORM\JoinColumn(nullable: false)]
     private ?Post $post = null;
 
+	public function __construct() {
+		$this->createdAt = new \DateTime();
+	}
+
     public function getId(): ?int
     {
         return $this->id;
@@ -94,4 +98,9 @@ class Comment
 
         return $this;
     }
+
+	public function __toString(): string
+	{
+		return $this->username;
+	}
 }

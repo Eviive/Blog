@@ -1,13 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/base.html.twig' %}
 
 {% block title %}Edit comment - {{ parent() }}{% endblock %}
 
 {% block body %}
     <h1>Edit Comment</h1>
 
-    {{ include('comment/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('pages/comment/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_comment_index') }}">back to list</a>
 
-    {{ include('comment/_delete_form.html.twig') }}
+    {{ include('pages/comment/_delete_form.html.twig') }}
 {% endblock %}

@@ -9,7 +9,7 @@
 				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
 					<div class="card shadow-2-strong" style="border-radius: 1rem;">
 						<div class="card-body p-5 text-center">
-							<form method="post">
+							<form method="POST">
 								<h3 class="mb-5">Login</h3>
 
 								{% if error %}
@@ -17,12 +17,12 @@
 								{% endif %}
 
 								<div class="form-floating mb-4">
-									<input type="email" class="form-control form-control-lg" id="typeEmailX-1" placeholder="Email" autocomplete="email" />
+									<input type="email" name="email" value="{{ last_username }}" class="form-control form-control-lg" id="typeEmailX-1" placeholder="Email" autocomplete="email" required />
 									<label for="typeEmailX-1" class="form-label">Email</label>
 								</div>
 
 								<div class="form-floating">
-									<input type="password" class="form-control form-control-lg" id="typePasswordX-1" placeholder="Password" autocomplete="current-password" />
+									<input type="password" name="password" class="form-control form-control-lg" id="typePasswordX-1" placeholder="Password" autocomplete="current-password" required />
 									<label for="typePasswordX-1" class="form-label">Password</label>
 								</div>
 

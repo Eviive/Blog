@@ -16,7 +16,7 @@ class CommentController extends AbstractController
     #[Route('/', name: 'app_comment_index', methods: ['GET'])]
     public function index(CommentRepository $commentRepository): Response
     {
-        return $this->render('comment/index.html.twig', [
+        return $this->render('pages/comment/index.html.twig', [
             'comments' => $commentRepository->findAll(),
         ]);
     }
@@ -34,7 +34,7 @@ class CommentController extends AbstractController
             return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('comment/new.html.twig', [
+        return $this->renderForm('pages/comment/new.html.twig', [
             'comment' => $comment,
             'form' => $form,
         ]);
@@ -43,7 +43,7 @@ class CommentController extends AbstractController
     #[Route('/{id}', name: 'app_comment_show', methods: ['GET'])]
     public function show(Comment $comment): Response
     {
-        return $this->render('comment/show.html.twig', [
+        return $this->render('pages/comment/show.html.twig', [
             'comment' => $comment,
         ]);
     }
@@ -60,7 +60,7 @@ class CommentController extends AbstractController
             return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('comment/edit.html.twig', [
+        return $this->renderForm('pages/comment/edit.html.twig', [
             'comment' => $comment,
             'form' => $form,
         ]);

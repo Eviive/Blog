@@ -1,0 +1,76 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Register - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="flex-grow-1" style="background-color: #508bfc;">
+		<div class="container py-5 h-100">
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+					<div class="card shadow-2-strong" style="border-radius: 1rem;">
+						<div class="card-body p-5 text-center">
+							{{ form_start(registerForm, {
+								attr: {
+									class: 'd-flex flex-column align-items-center gap-4'
+								}
+							}) }}
+								<h3 class="mb-3">Register</h3>
+
+								{% include 'components/_errors.html.twig' with { field: registerForm } %}
+
+								<div class="form-floating w-100">
+									{{ form_widget(registerForm.email, {
+										attr: {
+											id: 'typeEmailX-1',
+											class: 'form-control form-control-lg',
+											placeholder: 'Email'
+										}
+									}) }}
+									{{ form_label(registerForm.email, 'Email', {
+										attr: {
+											class: 'form-label'
+										}
+									}) }}
+									{% include 'components/_errors.html.twig' with { field: registerForm.email } %}
+								</div>
+
+								<div class="form-floating w-100">
+									{{ form_widget(registerForm.plainPassword, {
+										attr: {
+											id: 'typePasswordX-1',
+											class: 'form-control form-control-lg',
+											placeholder: 'Password'
+										}
+									}) }}
+									{{ form_label(registerForm.plainPassword, 'Password', {
+										attr: {
+											class: 'form-label'
+										}
+									}) }}
+									{% include 'components/_errors.html.twig' with { field: registerForm.plainPassword } %}
+								</div>
+
+								<div class="form-check">
+									{{ form_widget(registerForm.agreeTerms, {
+										attr: {
+											id: 'typeCheckboxX-1',
+											class: 'form-check-input'
+										}
+									}) }}
+									{{ form_label(registerForm.agreeTerms, 'Agree to terms and conditions', {
+										attr: {
+											class: 'form-check-label'
+										}
+									}) }}
+									{% include 'components/_errors.html.twig' with { field: registerForm.agreeTerms } %}
+								</div>
+
+								<button class="btn btn-primary btn-lg btn-block mt-3" type="submit">Register</button>
+							{{ form_end(registerForm) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

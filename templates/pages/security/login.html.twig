@@ -1,0 +1,39 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Login - {{ parent() }}{% endblock %}
+
+{% block body %}
+	<section class="flex-grow-1" style="background-color: #508bfc;">
+		<div class="container py-5 h-100">
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+					<div class="card shadow-2-strong" style="border-radius: 1rem;">
+						<div class="card-body p-5 text-center">
+							<form method="post">
+								<h3 class="mb-5">Login</h3>
+
+								{% if error %}
+									<div class="alert alert-danger mb-4">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+								{% endif %}
+
+								<div class="form-floating mb-4">
+									<input type="email" class="form-control form-control-lg" id="typeEmailX-1" placeholder="Email" autocomplete="email" />
+									<label for="typeEmailX-1" class="form-label">Email</label>
+								</div>
+
+								<div class="form-floating">
+									<input type="password" class="form-control form-control-lg" id="typePasswordX-1" placeholder="Password" autocomplete="current-password" />
+									<label for="typePasswordX-1" class="form-label">Password</label>
+								</div>
+
+								<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+								<button class="btn btn-primary btn-lg btn-block mt-5" type="submit">Login</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -22,7 +22,10 @@
 	{% block header %}
 		{% include 'components/_header.html.twig' %}
 	{% endblock %}
-	<main>
+	{% block nav %}
+		{{ render(controller('App\\Controller\\CategoryController::getPopularCategories')) }}
+	{% endblock %}
+	<main class="container my-2">
 		{% block main %}{% endblock %}
 	</main>
 	{% block footer %}

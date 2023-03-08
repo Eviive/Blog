@@ -19,17 +19,19 @@
 	{% endblock %}
 </head>
 <body>
-	{% block header %}
-		{% include 'components/_header.html.twig' %}
-	{% endblock %}
-	{% block nav %}
-		{{ render(controller('App\\Controller\\CategoryController::getPopularCategories')) }}
-	{% endblock %}
-	<main class="container my-2">
-		{% block main %}{% endblock %}
-	</main>
-	{% block footer %}
-		{% include 'components/_footer.html.twig' %}
+	{% block body %}
+		{% block header %}
+			{% include 'components/_header.html.twig' %}
+		{% endblock %}
+		{% block nav %}
+			{{ render(controller('App\\Controller\\CategoryController::getPopularCategories')) }}
+		{% endblock %}
+		<main class="container my-2">
+			{% block main %}{% endblock %}
+		</main>
+		{% block footer %}
+			{% include 'components/_footer.html.twig' %}
+		{% endblock %}
 	{% endblock %}
 </body>
 </html>

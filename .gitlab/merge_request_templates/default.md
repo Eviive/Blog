@@ -1,9 +1,7 @@
-# Title
-
 ## Issues
 
-* [#1](https://forge.univ-lyon1.fr/p2106202/blog/-/issues/1)
-* [#2](https://forge.univ-lyon1.fr/p2106202/blog/-/issues/2)
+* #1
+* #2
 
 ## Main changes
 
@@ -12,4 +10,4 @@
 
 ## Comments
 
-
+Comments about the merge request and its content

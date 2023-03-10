@@ -39,6 +39,22 @@ class CategoryRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Category[] Returns the first 10 categories ordered by the number of posts and then by name
+     */
+    public function findPopularCategories(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c, COUNT(p.id) AS HIDDEN post_count')
+            ->leftJoin('c.posts', 'p')
+            ->groupBy('c.id')
+            ->addOrderBy('post_count', 'DESC')
+            ->addOrderBy('c.name', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Category[] Returns an array of Category objects
 //     */

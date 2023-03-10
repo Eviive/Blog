@@ -19,6 +19,7 @@ class RegisterType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
+                'attr' => ['autocomplete' => 'email'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter an email',
@@ -45,6 +46,7 @@ class RegisterType extends AbstractType
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
+                        'maxMessage' => 'Your password should be at most {{ limit }} characters',
                     ]),
                 ],
 			])

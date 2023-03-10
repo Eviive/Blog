@@ -3,7 +3,7 @@
 {% block title %}Register - {{ parent() }}{% endblock %}
 
 {% block body %}
-    <section class="flex-grow-1" style="background-color: #508bfc;">
+    <section class="flex-grow-1 d-grid align-items-center" style="background-color: #508bfc;">
 		<div class="container py-5 h-100">
 			<div class="row d-flex justify-content-center align-items-center h-100">
 				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -16,7 +16,7 @@
 							}) }}
 								<h3 class="mb-3">Register</h3>
 
-								{% include 'components/_errors.html.twig' with { field: registerForm } %}
+								{% include 'components/utils/_errors.html.twig' with { field: registerForm } %}
 
 								<div class="form-floating w-100">
 									{{ form_widget(registerForm.email, {
@@ -31,7 +31,7 @@
 											class: 'form-label'
 										}
 									}) }}
-									{% include 'components/_errors.html.twig' with { field: registerForm.email } %}
+									{% include 'components/utils/_errors.html.twig' with { field: registerForm.email } %}
 								</div>
 
 								<div class="form-floating w-100">
@@ -47,7 +47,7 @@
 											class: 'form-label'
 										}
 									}) }}
-									{% include 'components/_errors.html.twig' with { field: registerForm.plainPassword } %}
+									{% include 'components/utils/_errors.html.twig' with { field: registerForm.plainPassword } %}
 								</div>
 
 								<div class="form-check">
@@ -62,10 +62,12 @@
 											class: 'form-check-label'
 										}
 									}) }}
-									{% include 'components/_errors.html.twig' with { field: registerForm.agreeTerms } %}
+									{% include 'components/utils/_errors.html.twig' with { field: registerForm.agreeTerms } %}
 								</div>
 
-								<button class="btn btn-primary btn-lg btn-block mt-3" type="submit">Register</button>
+								<button class="btn btn-primary btn-lg btn-block mt-2" type="submit">Register</button>
+
+								<a href="{{ path('app_security_login') }}">Already have an account? Sign in</a>
 							{{ form_end(registerForm) }}
 						</div>
 					</div>

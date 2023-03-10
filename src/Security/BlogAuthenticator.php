@@ -19,8 +19,6 @@ class BlogAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'app_login';
-
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
@@ -46,11 +44,11 @@ class BlogAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-		return new RedirectResponse($this->urlGenerator->generate('app_post_index'));
+		return new RedirectResponse($this->urlGenerator->generate('app_home_index'));
     }
 
     protected function getLoginUrl(Request $request): string
     {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        return $this->urlGenerator->generate('app_security_login');
     }
 }

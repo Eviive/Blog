@@ -40,7 +40,7 @@ class Post
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
-    #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'posts')]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'posts')]
     private Collection $categories;
 
     public function __construct()
@@ -181,7 +181,6 @@ class Post
     {
         if (!$this->categories->contains($category)) {
             $this->categories->add($category);
-            $category->addPost($this);
         }
 
         return $this;
@@ -189,9 +188,7 @@ class Post
 
     public function removeCategory(Category $category): self
     {
-        if ($this->categories->removeElement($category)) {
-            $category->removePost($this);
-        }
+        $this->categories->removeElement($category);
 
         return $this;
     }

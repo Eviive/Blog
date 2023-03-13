@@ -31,6 +31,7 @@ class Comment
     private ?Post $post = null;
 
 	public function __construct() {
+        $this->valid = false;
 		$this->createdAt = new \DateTime();
 	}
 

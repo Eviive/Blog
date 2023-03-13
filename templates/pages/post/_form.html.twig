@@ -1,4 +1,117 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {
+    attr: {
+        class: 'd-flex flex-column align-items-center gap-4 col-5 mt-4 mx-auto'
+    }
+}) }}
+    {% include 'components/form/_errors.html.twig' with { field: form } %}
+
+    <div class="form-floating w-100">
+        {{ form_widget(form.title, {
+            attr: {
+                id: 'typeTextX-1',
+                class: 'form-control form-control-lg',
+                placeholder: 'Title'
+            }
+        }) }}
+        {{ form_label(form.title, 'Title', {
+            attr: {
+                class: 'form-label'
+            }
+        }) }}
+        {% include 'components/form/_errors.html.twig' with { field: form.title } %}
+    </div>
+
+    <div class="form-floating w-100">
+        {{ form_widget(form.description, {
+            attr: {
+                id: 'typeTextX-2',
+                class: 'form-control form-control-lg',
+                placeholder: 'Description'
+            }
+        }) }}
+        {{ form_label(form.description, 'Description', {
+            attr: {
+                class: 'form-label'
+            }
+        }) }}
+        {% include 'components/form/_errors.html.twig' with { field: form.description } %}
+    </div>
+
+    <div class="form-floating w-100">
+        {{ form_widget(form.content, {
+            attr: {
+                id: 'typeTextX-3',
+                class: 'form-control form-control-lg',
+                placeholder: 'Content'
+            }
+        }) }}
+        {{ form_label(form.content, 'Content', {
+            attr: {
+                class: 'form-label'
+            }
+        }) }}
+        {% include 'components/form/_errors.html.twig' with { field: form.content } %}
+    </div>
+
+    <div class="form-floating w-100">
+        {{ form_widget(form.slug, {
+            attr: {
+                id: 'typeTextX-4',
+                class: 'form-control form-control-lg',
+                placeholder: 'Slug'
+            }
+        }) }}
+        {{ form_label(form.slug, 'Slug', {
+            attr: {
+                class: 'form-label'
+            }
+        }) }}
+        {% include 'components/form/_errors.html.twig' with { field: form.slug } %}
+    </div>
+
+    <div class="form-floating w-100">
+        {{ form_widget(form.updatedAt, {
+            attr: {
+                id: 'typeDateX-1',
+                class: 'form-control form-control-lg',
+                placeholder: 'Updated at'
+            }
+        }) }}
+        {{ form_label(form.updatedAt, 'Updated at', {
+            attr: {
+                class: 'form-label'
+            }
+        }) }}
+        {% include 'components/form/_errors.html.twig' with { field: form.updatedAt } %}
+    </div>
+
+    <div class="form-floating w-100">
+        {{ form_widget(form.publishedAt, {
+            attr: {
+                id: 'typeDateX-2',
+                class: 'form-control form-control-lg',
+                placeholder: 'Published at'
+            }
+        }) }}
+        {{ form_label(form.publishedAt, 'Published at', {
+            attr: {
+                class: 'form-label'
+            }
+        }) }}
+        {% include 'components/form/_errors.html.twig' with { field: form.publishedAt } %}
+    </div>
+
+    <div class="w-100">
+        {{ form_widget(form.categories, {
+            attr: {
+                id: 'typeSelectX-1',
+                class: 'form-select',
+                size: '4',
+                placeholder: 'Categories'
+            }
+        }) }}
+        {% include 'components/form/_errors.html.twig' with { field: form.categories } %}
+    </div>
+
+    <button class="btn btn-primary px-4 py-2">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

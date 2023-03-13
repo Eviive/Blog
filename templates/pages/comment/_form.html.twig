@@ -1,4 +1,53 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {
+    attr: {
+        class: 'd-flex flex-column align-items-center gap-4 col-5 mt-4 mx-auto'
+    }
+}) }}
+    {% include 'components/form/_errors.html.twig' with { field: form } %}
+
+    <div class="form-floating w-100">
+        {{ form_widget(form.username, {
+            attr: {
+                id: 'typeTextX-1',
+                class: 'form-control form-control-lg',
+                placeholder: 'Username'
+            }
+        }) }}
+        {{ form_label(form.username, 'Username', {
+            attr: {
+                class: 'form-label'
+            }
+        }) }}
+        {% include 'components/form/_errors.html.twig' with { field: form.username } %}
+    </div>
+
+    <div class="form-floating w-100">
+        {{ form_widget(form.content, {
+            attr: {
+                id: 'typeTextX-2',
+                class: 'form-control form-control-lg',
+                placeholder: 'Content'
+            }
+        }) }}
+        {{ form_label(form.content, 'Content', {
+            attr: {
+                class: 'form-label'
+            }
+        }) }}
+        {% include 'components/form/_errors.html.twig' with { field: form.content } %}
+    </div>
+
+    <div class="w-100">
+        {{ form_widget(form.post, {
+            attr: {
+                id: 'typeSelectX-1',
+                class: 'form-select',
+                size: '4',
+                placeholder: 'Post'
+            }
+        }) }}
+        {% include 'components/form/_errors.html.twig' with { field: form.post } %}
+    </div>
+
+    <button class="btn btn-primary px-4 py-2">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

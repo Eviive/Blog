@@ -11,6 +11,6 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home_index')]
     public function index(): Response
     {
-        return $this->render('pages/home/index.html.twig');
+        return $this->render('pages/user/home/index.html.twig');
     }
 }

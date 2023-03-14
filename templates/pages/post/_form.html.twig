@@ -1,6 +1,6 @@
 {{ form_start(form, {
     attr: {
-        class: 'd-flex flex-column align-items-center gap-4 col-5 mt-4 mx-auto'
+        class: 'd-flex flex-column align-items-center gap-4 col-7 mt-4 mx-auto'
     }
 }) }}
     {% include 'components/form/_errors.html.twig' with { field: form } %}
@@ -9,7 +9,7 @@
         {{ form_widget(form.title, {
             attr: {
                 id: 'typeTextX-1',
-                class: 'form-control form-control-lg',
+                class: 'form-control',
                 placeholder: 'Title'
             }
         }) }}
@@ -25,7 +25,7 @@
         {{ form_widget(form.description, {
             attr: {
                 id: 'typeTextX-2',
-                class: 'form-control form-control-lg',
+                class: 'form-control',
                 placeholder: 'Description'
             }
         }) }}
@@ -37,43 +37,20 @@
         {% include 'components/form/_errors.html.twig' with { field: form.description } %}
     </div>
 
-    <div class="form-floating w-100">
+    <div class="w-100">
         {{ form_widget(form.content, {
             attr: {
                 id: 'typeTextX-3',
-                class: 'form-control form-control-lg',
-                placeholder: 'Content'
-            }
-        }) }}
-        {{ form_label(form.content, 'Content', {
-            attr: {
-                class: 'form-label'
             }
         }) }}
         {% include 'components/form/_errors.html.twig' with { field: form.content } %}
     </div>
 
     <div class="form-floating w-100">
-        {{ form_widget(form.slug, {
-            attr: {
-                id: 'typeTextX-4',
-                class: 'form-control form-control-lg',
-                placeholder: 'Slug'
-            }
-        }) }}
-        {{ form_label(form.slug, 'Slug', {
-            attr: {
-                class: 'form-label'
-            }
-        }) }}
-        {% include 'components/form/_errors.html.twig' with { field: form.slug } %}
-    </div>
-
-    <div class="form-floating w-100">
         {{ form_widget(form.updatedAt, {
             attr: {
                 id: 'typeDateX-1',
-                class: 'form-control form-control-lg',
+                class: 'form-control',
                 placeholder: 'Updated at'
             }
         }) }}
@@ -89,7 +66,7 @@
         {{ form_widget(form.publishedAt, {
             attr: {
                 id: 'typeDateX-2',
-                class: 'form-control form-control-lg',
+                class: 'form-control',
                 placeholder: 'Published at'
             }
         }) }}
@@ -106,7 +83,7 @@
             attr: {
                 id: 'typeSelectX-1',
                 class: 'form-select',
-                size: '4',
+                size: '6',
                 placeholder: 'Categories'
             }
         }) }}

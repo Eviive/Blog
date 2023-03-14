@@ -3,9 +3,9 @@
 {% block title %}New post - {{ parent() }}{% endblock %}
 
 {% block main %}
-    <h1>Create new Post</h1>
+    <h1>Create a new Post</h1>
 
-    {{ include('pages/post/_form.html.twig') }}
+    {% include 'pages/post/_form.html.twig' %}
 
-    <a href="{{ path('app_post_index') }}">back to list</a>
+	<a href="{{ path('app_post_index') }}">back to list</a>
 {% endblock %}

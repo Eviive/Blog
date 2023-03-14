@@ -25,7 +25,7 @@
                 <td>{{ post.id }}</td>
                 <td>{{ post.title }}</td>
                 <td>{{ post.description }}</td>
-                <td>{{ post.content }}</td>
+                <td>{{ post.content|sanitize_html }}</td>
                 <td>{{ post.slug }}</td>
                 <td>{{ post.createdAt ? post.createdAt|date('Y-m-d') : '' }}</td>
                 <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d') : '' }}</td>

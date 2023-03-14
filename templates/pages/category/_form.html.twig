@@ -1,4 +1,25 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {
+    attr: {
+        class: 'd-flex flex-column align-items-center gap-4 col-5 mt-4 mx-auto'
+    }
+}) }}
+    {% include 'components/form/_errors.html.twig' with { field: form } %}
+
+    <div class="form-floating w-100">
+        {{ form_widget(form.name, {
+            attr: {
+                id: 'typeTextX-1',
+                class: 'form-control',
+                placeholder: 'Name'
+            }
+        }) }}
+        {{ form_label(form.name, 'Name', {
+            attr: {
+                class: 'form-label'
+            }
+        }) }}
+        {% include 'components/form/_errors.html.twig' with { field: form.name } %}
+    </div>
+
+    <button class="btn btn-primary px-4 py-2">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

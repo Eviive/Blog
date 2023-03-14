@@ -14,8 +14,6 @@ class CommentType extends AbstractType
         $builder
             ->add('username')
             ->add('content')
-            ->add('valid')
-            ->add('createdAt')
             ->add('post')
         ;
     }
@@ -24,6 +22,7 @@ class CommentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Comment::class,
+            'sanitize_html' => true,
         ]);
     }
 }

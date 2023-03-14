@@ -16,13 +16,13 @@
 							}) }}
 								<h3 class="mb-3">Register</h3>
 
-								{% include 'components/utils/_errors.html.twig' with { field: registerForm } %}
+								{% include 'components/form/_errors.html.twig' with { field: registerForm } %}
 
 								<div class="form-floating w-100">
 									{{ form_widget(registerForm.email, {
 										attr: {
 											id: 'typeEmailX-1',
-											class: 'form-control form-control-lg',
+											class: 'form-control',
 											placeholder: 'Email'
 										}
 									}) }}
@@ -31,14 +31,14 @@
 											class: 'form-label'
 										}
 									}) }}
-									{% include 'components/utils/_errors.html.twig' with { field: registerForm.email } %}
+									{% include 'components/form/_errors.html.twig' with { field: registerForm.email } %}
 								</div>
 
 								<div class="form-floating w-100">
 									{{ form_widget(registerForm.plainPassword, {
 										attr: {
 											id: 'typePasswordX-1',
-											class: 'form-control form-control-lg',
+											class: 'form-control',
 											placeholder: 'Password'
 										}
 									}) }}
@@ -47,7 +47,7 @@
 											class: 'form-label'
 										}
 									}) }}
-									{% include 'components/utils/_errors.html.twig' with { field: registerForm.plainPassword } %}
+									{% include 'components/form/_errors.html.twig' with { field: registerForm.plainPassword } %}
 								</div>
 
 								<div class="form-check">
@@ -62,7 +62,7 @@
 											class: 'form-check-label'
 										}
 									}) }}
-									{% include 'components/utils/_errors.html.twig' with { field: registerForm.agreeTerms } %}
+									{% include 'components/form/_errors.html.twig' with { field: registerForm.agreeTerms } %}
 								</div>
 
 								<button class="btn btn-primary btn-lg btn-block mt-2" type="submit">Register</button>

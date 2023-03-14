@@ -1,0 +1,19 @@
+fos_ck_editor:
+    default_config: entity_form_config
+    configs:
+        entity_form_config:
+            toolbar: 'entity_form_config'
+            uiColor: '#ffffff'
+    toolbars:
+        configs:
+            entity_form_config: [ "@do", "-", "@text", "-", "@color", "-", "@link", "/", "@align", "-", "@list", "-", "@tool", "/", "@style", "/", "@document" ]
+        items:
+            text: [ "Bold", "Italic", "Underline", "Quote", "RemoveFormat" ]
+            link: [ "Link", "Unlink" ]
+            list: [ "NumberedList", "BulletedList" ]
+            document: [ "Source", "Maximize", "Templates" ]
+            do: [ "Undo", "Redo" ]
+            tool: [ "Image", "Table", "HorizontalRule" ]
+            align: [ "JustifyLeft", "JustifyCenter", "JustifyRight", "JustifyBlock" ]
+            style: [ "Styles", "Format", "Font" ]
+            color: [ "TextColor", "BGColor" ]

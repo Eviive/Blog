@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/category')]
+#[Route('/admin/category')]
 class CategoryController extends AbstractController
 {
     #[Route('/', name: 'app_category_index', methods: ['GET'])]
@@ -18,6 +18,14 @@ class CategoryController extends AbstractController
     {
         return $this->render('pages/category/index.html.twig', [
             'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_category_show', methods: ['GET'])]
+    public function show(Category $category): Response
+    {
+        return $this->render('pages/category/show.html.twig', [
+            'category' => $category,
         ]);
     }
 
@@ -37,14 +45,6 @@ class CategoryController extends AbstractController
         return $this->renderForm('pages/category/new.html.twig', [
             'category' => $category,
             'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_category_show', methods: ['GET'])]
-    public function show(Category $category): Response
-    {
-        return $this->render('pages/category/show.html.twig', [
-            'category' => $category,
         ]);
     }
 

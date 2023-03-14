@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Post;
 use App\Form\PostType;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/post')]
+#[Route('/admin/post')]
 class PostController extends AbstractController
 {
     #[Route('/', name: 'app_post_index', methods: ['GET'])]
@@ -20,6 +20,14 @@ class PostController extends AbstractController
     {
         return $this->render('pages/post/index.html.twig', [
             'posts' => $postRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_post_show', methods: ['GET'])]
+    public function show(Post $post): Response
+    {
+        return $this->render('pages/post/show.html.twig', [
+            'post' => $post,
         ]);
     }
 
@@ -42,14 +50,6 @@ class PostController extends AbstractController
         return $this->renderForm('pages/post/new.html.twig', [
             'post' => $post,
             'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_post_show', methods: ['GET'])]
-    public function show(Post $post): Response
-    {
-        return $this->render('pages/post/show.html.twig', [
-            'post' => $post,
         ]);
     }
 

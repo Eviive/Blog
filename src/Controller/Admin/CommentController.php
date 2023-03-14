@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Comment;
 use App\Form\CommentType;
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/comment')]
+#[Route('/admin/comment')]
 class CommentController extends AbstractController
 {
     #[Route('/', name: 'app_comment_index', methods: ['GET'])]
@@ -18,6 +18,14 @@ class CommentController extends AbstractController
     {
         return $this->render('pages/comment/index.html.twig', [
             'comments' => $commentRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_comment_show', methods: ['GET'])]
+    public function show(Comment $comment): Response
+    {
+        return $this->render('pages/comment/show.html.twig', [
+            'comment' => $comment,
         ]);
     }
 
@@ -37,14 +45,6 @@ class CommentController extends AbstractController
         return $this->renderForm('pages/comment/new.html.twig', [
             'comment' => $comment,
             'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_comment_show', methods: ['GET'])]
-    public function show(Comment $comment): Response
-    {
-        return $this->render('pages/comment/show.html.twig', [
-            'comment' => $comment,
         ]);
     }
 

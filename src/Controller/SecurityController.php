@@ -19,6 +19,10 @@ class SecurityController extends AbstractController
 	#[Route('/register', name: 'app_security_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, BlogAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home_index');
+        }
+
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);

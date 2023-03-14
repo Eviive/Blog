@@ -21,7 +21,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_category_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_category_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function show(Category $category): Response
     {
         return $this->render('pages/category/show.html.twig', [
@@ -48,7 +48,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_category_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_category_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function edit(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
         $form = $this->createForm(CategoryType::class, $category);
@@ -66,7 +66,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_category_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_category_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function delete(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
@@ -74,12 +74,5 @@ class CategoryController extends AbstractController
         }
 
         return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    public function getPopularCategories(CategoryRepository $categoryRepository): Response
-    {
-        return $this->render('components/_nav.html.twig', [
-            'categories' => $categoryRepository->findPopularCategories(),
-        ]);
     }
 }

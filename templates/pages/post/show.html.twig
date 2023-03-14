@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <th>Content</th>
-                <td>{{ post.content }}</td>
+                <td>{{ post.content|sanitize_html }}</td>
             </tr>
             <tr>
                 <th>Slug</th>

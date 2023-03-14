@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Post;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,8 +15,7 @@ class PostType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('content')
-            ->add('slug')
+            ->add('content', CKEditorType::class)
             ->add('updatedAt')
             ->add('publishedAt')
             ->add('categories')
@@ -26,6 +26,7 @@ class PostType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Post::class,
+            'sanitize_html' => true,
         ]);
     }
 }

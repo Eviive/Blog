@@ -21,7 +21,7 @@ RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
 RUN rm -rf /var/cache/apk/*
 
-CMD composer install && \
-	symfony console doctrine:database:create & \
+# CMD composer install && \
+CMD	symfony console doctrine:database:create --if-not-exists && \
 	symfony console doctrine:migrations:migrate && \
 	php-fpm --nodaemonize

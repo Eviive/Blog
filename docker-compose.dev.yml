@@ -14,7 +14,6 @@ services:
     php:
         container_name: php
         build:
-            context: .
             dockerfile: ./docker/php/Dockerfile
         volumes:
             - ./:/var/www/blog
@@ -24,13 +23,9 @@ services:
     node:
         container_name: node
         build:
-            context: .
             dockerfile: ./docker/node/Dockerfile
         volumes:
             - ./:/var/www/blog
-        depends_on:
-            - database
-            - php
 
     nginx:
         container_name: nginx

@@ -8,6 +8,7 @@ services:
             - .env
         environment:
             MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+            MARIADB_DATABASE: ${MARIADB_DATABASE}
         volumes:
             - mariadb_data:/var/lib/mysql
 
@@ -17,6 +18,8 @@ services:
             dockerfile: ./docker/php/Dockerfile
         volumes:
             - ./:/var/www/blog
+            - /var/www/blog/vendor
+            - /var/www/blog/node_modules
         depends_on:
             - database
 
@@ -26,6 +29,8 @@ services:
             dockerfile: ./docker/node/Dockerfile
         volumes:
             - ./:/var/www/blog
+            - /var/www/blog/vendor
+            - /var/www/blog/node_modules
 
     nginx:
         container_name: nginx

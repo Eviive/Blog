@@ -22,6 +22,5 @@ RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
 RUN rm -rf /var/cache/apk/*
 
-CMD rm -rf public/build public/bundles && \
-	composer install && \
+CMD composer install && \
 	php-fpm --nodaemonize

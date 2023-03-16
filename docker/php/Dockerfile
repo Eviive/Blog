@@ -22,7 +22,6 @@ RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
 RUN rm -rf /var/cache/apk/*
 
-CMD composer install && \
-	symfony console ckeditor:install --clear=skip && \
-	symfony console assets:install && \
+CMD rm -rf public/build public/bundles && \
+	composer install && \
 	php-fpm --nodaemonize

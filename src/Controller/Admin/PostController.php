@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Post;
 use App\Form\PostType;
@@ -12,14 +12,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/post')]
+#[Route('/admin/post')]
 class PostController extends AbstractController
 {
     #[Route('/', name: 'app_post_index', methods: ['GET'])]
     public function index(PostRepository $postRepository): Response
     {
-        return $this->render('pages/post/index.html.twig', [
+        return $this->render('pages/admin/post/index.html.twig', [
             'posts' => $postRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_post_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function show(Post $post): Response
+    {
+        return $this->render('pages/admin/post/show.html.twig', [
+            'post' => $post,
         ]);
     }
 
@@ -39,21 +47,13 @@ class PostController extends AbstractController
             return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('pages/post/new.html.twig', [
+        return $this->renderForm('pages/admin/post/new.html.twig', [
             'post' => $post,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_post_show', methods: ['GET'])]
-    public function show(Post $post): Response
-    {
-        return $this->render('pages/post/show.html.twig', [
-            'post' => $post,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_post_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_post_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function edit(Request $request, Post $post, PostRepository $postRepository, SluggerInterface $slugger, HtmlSanitizerInterface $sanitizer): Response
     {
         $form = $this->createForm(PostType::class, $post);
@@ -68,13 +68,13 @@ class PostController extends AbstractController
             return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('pages/post/edit.html.twig', [
+        return $this->renderForm('pages/admin/post/edit.html.twig', [
             'post' => $post,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_post_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_post_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function delete(Request $request, Post $post, PostRepository $postRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {

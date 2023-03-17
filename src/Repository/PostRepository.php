@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +39,48 @@ class PostRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @return Post|null
+     * @throws NonUniqueResultException
+     */
+    public function findFeaturedPost(): Post | null
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->leftJoin('p.comments', 'c')
+            ->groupBy('p.id')
+            ->having('p.publishedAt is not NULL')
+            ->addOrderBy('COUNT(c.id)', 'DESC')
+            ->addOrderBy('p.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function findAllExcept(int $id): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->andWhere('p.publishedAt is not NULL')
+            ->andwhere('p.id != :id')
+            ->setParameter('id', $id)
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findPagination(): Query
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.publishedAt is not NULL')
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+        ;
     }
 
 //    /**

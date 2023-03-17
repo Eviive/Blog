@@ -24,7 +24,7 @@
 			{% include 'components/_header.html.twig' %}
 		{% endblock %}
 		{% block nav %}
-			{{ render(controller('App\\Controller\\CategoryController::getPopularCategories')) }}
+			{{ render(controller('App\\Controller\\User\\CategoryController::getPopularCategories')) }}
 		{% endblock %}
 		<main class="container my-4">
 			{% block main %}{% endblock %}

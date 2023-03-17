@@ -1,24 +1,28 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\User;
 
 use App\Entity\User;
 use App\Form\RegisterType;
 use App\Security\BlogAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
 class SecurityController extends AbstractController
 {
 	#[Route('/register', name: 'app_security_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, BlogAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home_index');
+        }
+
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
@@ -43,7 +47,7 @@ class SecurityController extends AbstractController
             );
         }
 
-        return $this->render('pages/security/register.html.twig', [
+        return $this->render('pages/user/security/register.html.twig', [
             'registerForm' => $form->createView()
         ]);
     }
@@ -60,7 +64,7 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('pages/security/login.html.twig', [
+        return $this->render('pages/user/security/login.html.twig', [
 			'last_username' => $lastUsername,
 			'error' => $error
 		]);

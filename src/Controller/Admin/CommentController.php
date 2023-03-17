@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Comment;
 use App\Form\CommentType;
@@ -10,14 +10,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/comment')]
+#[Route('/admin/comment')]
 class CommentController extends AbstractController
 {
     #[Route('/', name: 'app_comment_index', methods: ['GET'])]
     public function index(CommentRepository $commentRepository): Response
     {
-        return $this->render('pages/comment/index.html.twig', [
+        return $this->render('pages/admin/comment/index.html.twig', [
             'comments' => $commentRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_comment_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function show(Comment $comment): Response
+    {
+        return $this->render('pages/admin/comment/show.html.twig', [
+            'comment' => $comment,
         ]);
     }
 
@@ -34,21 +42,13 @@ class CommentController extends AbstractController
             return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('pages/comment/new.html.twig', [
+        return $this->renderForm('pages/admin/comment/new.html.twig', [
             'comment' => $comment,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_comment_show', methods: ['GET'])]
-    public function show(Comment $comment): Response
-    {
-        return $this->render('pages/comment/show.html.twig', [
-            'comment' => $comment,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_comment_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_comment_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function edit(Request $request, Comment $comment, CommentRepository $commentRepository): Response
     {
         $form = $this->createForm(CommentType::class, $comment);
@@ -60,13 +60,13 @@ class CommentController extends AbstractController
             return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('pages/comment/edit.html.twig', [
+        return $this->renderForm('pages/admin/comment/edit.html.twig', [
             'comment' => $comment,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_comment_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_comment_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function delete(Request $request, Comment $comment, CommentRepository $commentRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {

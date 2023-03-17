@@ -45,12 +45,25 @@ class CategoryRepository extends ServiceEntityRepository
     public function findPopularCategories(): array
     {
         return $this->createQueryBuilder('c')
-            ->select('c, COUNT(p.id) AS HIDDEN post_count')
+            ->select('c')
             ->leftJoin('c.posts', 'p')
             ->groupBy('c.id')
-            ->addOrderBy('post_count', 'DESC')
+            ->addOrderBy('COUNT(p.id)', 'DESC')
             ->addOrderBy('c.name', 'ASC')
             ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllNotEmpty(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c')
+            ->leftJoin('c.posts', 'p')
+            ->groupBy('c.id')
+            ->having('COUNT(p.id) > 0')
+            ->addOrderBy('COUNT(p.id)', 'DESC')
+            ->addOrderBy('c.name', 'ASC')
             ->getQuery()
             ->getResult();
     }

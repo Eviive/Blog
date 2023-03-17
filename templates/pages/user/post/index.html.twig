@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Home - {{ parent() }}{% endblock %}
+
+{% block main %}
+	{% if featured %}
+		<h2>{{ featured.title }}</h2>
+		<p>{{ featured.content }}</p>
+	{% endif %}
+
+	<h3>Posts</h3>
+	{% for p in posts %}
+		<p>{{ p.title }}</p>
+	{% endfor %}
+{% endblock %}

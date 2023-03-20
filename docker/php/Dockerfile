@@ -9,7 +9,7 @@ RUN docker-php-ext-configure intl && \
 	docker-php-ext-enable opcache
 #
 
-WORKDIR /var/www/blog
+WORKDIR /var/www/Blog
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -20,7 +20,9 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 #
 
-RUN rm -rf /var/cache/apk/*
+COPY ./composer.json /var/www/Blog/composer.json
 
-CMD composer install && \
-	php-fpm --nodaemonize
+RUN rm -rf /var/cache/apk/* && \
+	composer install
+
+CMD php-fpm --nodaemonize

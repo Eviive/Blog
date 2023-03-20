@@ -17,9 +17,9 @@ services:
         build:
             dockerfile: ./docker/php/Dockerfile
         volumes:
-            - ./:/var/www/blog
-            - /var/www/blog/vendor
-            - /var/www/blog/node_modules
+            - ./:/var/www/Blog
+            - /var/www/Blog/vendor
+            - /var/www/Blog/node_modules
         depends_on:
             - database
 
@@ -28,9 +28,9 @@ services:
         build:
             dockerfile: ./docker/node/Dockerfile
         volumes:
-            - ./:/var/www/blog
-            - /var/www/blog/vendor
-            - /var/www/blog/node_modules
+            - ./:/var/www/Blog
+            - /var/www/Blog/vendor
+            - /var/www/Blog/node_modules
 
     nginx:
         container_name: nginx
@@ -38,7 +38,7 @@ services:
         ports:
             - '8080:80'
         volumes:
-            - ./public:/var/www/blog/public
+            - ./public:/var/www/Blog/public
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
         links:
             - php

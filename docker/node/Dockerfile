@@ -1,6 +1,9 @@
 FROM node:18-alpine
 
-WORKDIR /var/www/blog
+WORKDIR /var/www/Blog
 
-CMD npm i && \
-	npm run watch
+COPY ./package.json /var/www/Blog/package.json
+
+RUN npm i
+
+CMD npm run watch

@@ -5,7 +5,7 @@
 {% block main %}
 	{% if featured %}
 		<h2>{{ featured.title }}</h2>
-		<p>{{ featured.content }}</p>
+		<p>{{ featured.content|sanitize_html }}</p>
 	{% endif %}
 
 	<h3>Posts</h3>

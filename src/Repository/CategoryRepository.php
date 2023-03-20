@@ -48,6 +48,7 @@ class CategoryRepository extends ServiceEntityRepository
             ->select('c')
             ->leftJoin('c.posts', 'p')
             ->groupBy('c.id')
+            ->having('COUNT(p.id) > 0')
             ->addOrderBy('COUNT(p.id)', 'DESC')
             ->addOrderBy('c.name', 'ASC')
             ->setMaxResults(10)

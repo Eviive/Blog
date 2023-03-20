@@ -1,9 +1,9 @@
 {% block nav %}
-    <div class="nav-scroller px-5 py-1 mb-2">
-        <nav class="nav d-flex justify-content-center ">
+    <nav class="nav-scroller px-5 py-1 mb-2">
+        <div class="nav d-flex justify-content-center ">
             {% for c in categories %}
                 <a class="px-3 py-2 link-secondary" href="{{ path('app_category_show', {id: c.id}) }}">{{ c.name }}</a>
             {% endfor %}
-        </nav>
-    </div>
+        </div>
+    </nav>
 {% endblock %}

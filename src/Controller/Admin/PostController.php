@@ -39,7 +39,7 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post->setSlug($slugger->slug($post->getTitle()));
+            $post->setSlug($slugger->slug($post->getTitle())->lower());
             $post->setContent($sanitizer->sanitize($post->getContent()));
 
             $postRepository->save($post, true);
@@ -60,7 +60,7 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post->setSlug($slugger->slug($post->getTitle()));
+            $post->setSlug($slugger->slug($post->getTitle())->lower());
             $post->setContent($sanitizer->sanitize($post->getContent()));
 
             $postRepository->save($post, true);

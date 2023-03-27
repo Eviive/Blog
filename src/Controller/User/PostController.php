@@ -31,9 +31,11 @@ class PostController extends AbstractController
     #[Route('/post', name: 'app_home_post')]
     public function post(Request $request, PostRepository $postRepository, PaginatorInterface $paginator): Response
     {
+        $pageNumber = $request->query->getInt('page', 1);
+        
         $pagination = $paginator->paginate(
             $postRepository->findPagination(),
-            $request->query->getInt('page', 1),
+            max($pageNumber, 1),
             1
         );
 

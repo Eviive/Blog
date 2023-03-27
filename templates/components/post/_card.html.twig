@@ -1,14 +1,14 @@
 <div class="col">
-    <div class="card">
+    <div class="card h-100">
         <h5 class="card-header text-primary p-2">
             {% for c in post.categories %}
                 <a href="{{ path('app_home_category_show', { id: c.id }) }}" class="badge badge-primary text-primary p-1">{{ c.name }}</a>
             {% endfor %}
         </h5>
-        <div class="card-body position-relative">
+        <div class="card-body position-relative d-flex flex-column align-items-start gap-1">
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">{{ post.description }}</p>
-            <a href="{{ path('app_home_post_show', { slug : post.slug }) }}" class="btn btn-primary stretched-link">Continue reading</a>
+            <a href="{{ path('app_home_post_show', { slug : post.slug }) }}" class="btn btn-primary stretched-link mt-auto">Continue reading</a>
         </div>
     </div>
 </div>

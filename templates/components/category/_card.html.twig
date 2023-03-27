@@ -4,7 +4,7 @@
             <h5 class="card-title">{{ category.name }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{ category.posts|length }} posts</h6>
             <p class="card-text">Temporary description of the {{ category.name }} category.</p>
-            <a href="#{{ category.id }}" class="btn btn-primary mt-auto">See posts</a>
+            <a href="{{ path('app_home_category_show', { id: category.id }) }}" class="btn btn-primary mt-auto">See posts</a>
         </div>
     </div>
 </div>

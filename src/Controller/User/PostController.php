@@ -2,6 +2,7 @@
 
 namespace App\Controller\User;
 
+use App\Entity\Post;
 use App\Repository\PostRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\PaginatorInterface;
@@ -32,7 +33,7 @@ class PostController extends AbstractController
     public function post(Request $request, PostRepository $postRepository, PaginatorInterface $paginator): Response
     {
         $pageNumber = $request->query->getInt('page', 1);
-        
+
         $pagination = $paginator->paginate(
             $postRepository->findPagination(),
             max($pageNumber, 1),
@@ -41,6 +42,14 @@ class PostController extends AbstractController
 
         return $this->render('pages/user/post/post.html.twig', [
             'pagination' => $pagination,
+        ]);
+    }
+
+    #[Route('/post/{slug}', name: 'app_home_post_show')]
+    public function show(Post $post): Response
+    {
+        return $this->render('pages/user/post/show.html.twig', [
+            'post' => $post,
         ]);
     }
 }

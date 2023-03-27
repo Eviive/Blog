@@ -25,7 +25,7 @@ class Post
     #[ORM\Column(length: 10000)]
     private ?string $content = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

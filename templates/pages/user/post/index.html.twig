@@ -9,7 +9,7 @@
                 <h2 class="display-4 fst-italic">{{ featured.title }}</h2>
                 <div class="col-md-6">
                     <p class="lead my-3">{{ featured.description }}</p>
-                    <p class="lead mb-0"><a href="{{ path('app_post_show', { id: featured.id }) }}" class="text-white fw-bold">Continue reading...</a></p>
+                    <p class="lead mb-0"><a href="{{ path('app_home_post_show', { slug: featured.slug }) }}" class="text-white fw-bold">Continue reading...</a></p>
                 </div>
             </div>
         {% endif %}

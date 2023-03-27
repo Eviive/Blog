@@ -22,7 +22,7 @@
     </ul>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mb-4">
-        {% for post in pagination|merge(pagination)|merge(pagination)|merge(pagination)|merge(pagination) %}
+        {% for post in pagination %}
             {% include 'components/post/_card.html.twig' with { post: post } %}
         {% endfor %}
     </div>

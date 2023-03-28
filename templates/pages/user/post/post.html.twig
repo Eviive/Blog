@@ -3,35 +3,34 @@
 {% block title %}Posts - {{ parent() }}{% endblock %}
 
 {% block main %}
-    {# total items count #}
-    <div class="count">
-        {{ pagination.getTotalItemCount }} items
-    </div>
-    <br />
-    <table>
-        <tr>
-            {# sorting of properties based on query components #}
-            <th>{{ knp_pagination_sortable(pagination, 'Id', 'p.id') }}</th>
-            <th{% if pagination.isSorted('p.title') %} class="sorted"{% endif %}>
-                {{ knp_pagination_sortable(pagination, 'Title', 'p.title') }}
-            </th>
-            <th{% if pagination.isSorted(['p.createdAt']) %} class="sorted"{% endif %}>
-                {{ knp_pagination_sortable(pagination, 'Release', ['p.createdAt']) }}
-            </th>
-        </tr>
+    <ul class="pagination">
+        <li class="page-item">
+            {{ knp_pagination_sortable(pagination, 'Id', 'p.id', options = {
+                class: pagination.isSorted('p.id') ? 'page-link active' : 'page-link'
+            }) }}
+        </li>
+        <li class="page-item">
+            {{ knp_pagination_sortable(pagination, 'Title', 'p.title', options = {
+                class: pagination.isSorted('p.title') ? 'page-link active' : 'page-link'
+            }) }}
+        </li>
+        <li class="page-item">
+            {{ knp_pagination_sortable(pagination, 'Release', 'p.publishedAt', options = {
+                class: pagination.isSorted('p.publishedAt') ? 'page-link active' : 'page-link'
+            }) }}
+        </li>
+    </ul>
 
-        {# table body #}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mb-4">
         {% for post in pagination %}
-            <tr {% if loop.index is odd %}class="color"{% endif %}>
-                <td>{{ post.id }}</td>
-                <td>{{ post.title }}</td>
-                <td>{{ post.createdAt | date('Y-m-d') }}</td>
-            </tr>
+            {% include 'components/post/_card.html.twig' with { post: post } %}
         {% endfor %}
-    </table>
-    <br />
-    {# display navigation #}
-    <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
     </div>
+
+    {% set renderPagination = knp_pagination_render(pagination) %}
+    {% if renderPagination|length > 0 %}
+        <div class="navigation mx-auto mt-auto">
+            {{ renderPagination|raw }}
+        </div>
+    {% endif %}
 {% endblock %}

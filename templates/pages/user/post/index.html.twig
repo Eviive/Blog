@@ -3,13 +3,19 @@
 {% block title %}Home - {{ parent() }}{% endblock %}
 
 {% block main %}
-	{% if featured %}
-		<h2>{{ featured.title }}</h2>
-		<p>{{ featured.content|sanitize_html }}</p>
-	{% endif %}
+    {% if featured %}
+        <div class="p-4 p-md-5 text-white rounded bg-dark mb-3">
+            <h2 class="display-4 fst-italic">{{ featured.title }}</h2>
+            <div class="col-md-6">
+                <p class="lead my-3">{{ featured.description }}</p>
+                <p class="lead mb-0"><a href="{{ path('app_home_post_show', { slug: featured.slug }) }}" class="text-white fw-bold">Continue reading...</a></p>
+            </div>
+        </div>
+    {% endif %}
 
-	<h3>Posts</h3>
-	{% for p in posts %}
-		<p>{{ p.title }}</p>
-	{% endfor %}
+    <div class="row row-cols-2 g-4">
+        {% for p in posts %}
+            {% include 'components/post/_card.html.twig' with { post: p } %}
+        {% endfor %}
+    </div>
 {% endblock %}

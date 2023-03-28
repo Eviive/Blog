@@ -4,8 +4,9 @@
 
 {% block main %}
     <h3>Categories</h3>
-    {% for c in categories %}
-        {{ c.name }}
-        <br />
-    {% endfor %}
+    <div class="row row-cols-2 row-cols-lg-4 g-4">
+        {% for c in categories %}
+            {% include 'components/category/_card.html.twig' with { category: c } %}
+        {% endfor %}
+    </div>
 {% endblock %}

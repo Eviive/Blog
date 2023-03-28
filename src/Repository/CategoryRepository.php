@@ -59,7 +59,7 @@ class CategoryRepository extends ServiceEntityRepository
     public function findAllNotEmpty(): array
     {
         return $this->createQueryBuilder('c')
-            ->select('c')
+            ->select('c', 'p')
             ->leftJoin('c.posts', 'p')
             ->groupBy('c.id')
             ->having('COUNT(p.id) > 0')

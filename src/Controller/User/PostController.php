@@ -37,7 +37,7 @@ class PostController extends AbstractController
         $pagination = $paginator->paginate(
             $postRepository->findPagination(),
             max($pageNumber, 1),
-            1
+            10
         );
 
         return $this->render('pages/user/post/post.html.twig', [

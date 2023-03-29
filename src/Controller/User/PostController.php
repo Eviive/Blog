@@ -2,7 +2,10 @@
 
 namespace App\Controller\User;
 
+use App\Entity\Comment;
 use App\Entity\Post;
+use App\Form\CommentType;
+use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\PaginatorInterface;
@@ -46,10 +49,27 @@ class PostController extends AbstractController
     }
 
     #[Route('/post/{slug}', name: 'app_home_post_show')]
-    public function show(Post $post): Response
+    public function show(Post $post, Request $request, CommentRepository $commentRepository): Response
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($this->getUser() && $form->isSubmitted() && $form->isValid()) {
+            $comment->setUsername($this->getUser()->getUserIdentifier());
+            $comment->setPost($post);
+
+            $commentRepository->save($comment, true);
+
+            unset($comment);
+            unset($form);
+            $comment = new Comment();
+            $form = $this->createForm(CommentType::class, $comment);
+        }
+
         return $this->render('pages/user/post/show.html.twig', [
             'post' => $post,
+            'form' => $form->createView(),
         ]);
     }
 }

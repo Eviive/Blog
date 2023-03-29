@@ -20,7 +20,7 @@
                     <span class="text-muted">Be the first to leave a comment</span>
                 {% else %}
                     <div class="d-flex flex-column gap-4 mt-4">
-                        {% for c in validComments|merge(validComments)|merge(validComments)|merge(validComments)|merge(validComments)|merge(validComments)|merge(validComments)|merge(validComments) %}
+                        {% for c in validComments %}
                             <div class="text-justify p-3 rounded-2 shadow">
                                 <span class="my-1 text-muted">
                                     {{ c.createdAt|format_datetime('medium', 'none', locale='en') }}

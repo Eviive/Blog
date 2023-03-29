@@ -40,7 +40,7 @@ class Post
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
-    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'posts')]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'posts', cascade: ['persist'])]
     private Collection $categories;
 
     public function __construct()

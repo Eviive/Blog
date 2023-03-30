@@ -56,7 +56,7 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($this->getUser() && $form->isSubmitted() && $form->isValid()) {
-            $comment->setUsername($this->getUser()->getUserIdentifier());
+            $comment->setUser($this->getUser());
             $comment->setPost($post);
 
             $commentRepository->save($comment, true);

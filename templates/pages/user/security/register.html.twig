@@ -35,6 +35,22 @@
 								</div>
 
 								<div class="form-floating w-100">
+									{{ form_widget(registerForm.username, {
+										attr: {
+											id: 'typeTextX-1',
+											class: 'form-control',
+											placeholder: 'Username'
+										}
+									}) }}
+									{{ form_label(registerForm.username, 'Username', {
+										attr: {
+											class: 'form-label'
+										}
+									}) }}
+									{% include 'components/form/_errors.html.twig' with { field: registerForm.username } %}
+								</div>
+
+								<div class="form-floating w-100">
 									{{ form_widget(registerForm.plainPassword.first, {
 										attr: {
 											id: 'typePasswordX-1',

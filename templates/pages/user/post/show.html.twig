@@ -33,15 +33,7 @@
                 {% else %}
                     <div class="d-flex flex-column gap-4 mt-4">
                         {% for c in validComments %}
-                            <div class="text-justify p-3 rounded-2 shadow">
-                                <span class="my-1 text-muted">
-                                    {{ c.createdAt|format_datetime('medium', 'none', locale='en') }}
-                                    <span class="text-primary">{{ c.username }}</span>
-                                    says:
-                                </span>
-                                <hr class="mt-2 mb-3" />
-                                <p class="m-0">{{ c.content }}</p>
-                            </div>
+                            {% include 'components/comment/_card.html.twig' with { comment: c } %}
                         {% endfor %}
                     </div>
                 {% endif %}

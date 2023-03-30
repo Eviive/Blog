@@ -15,9 +15,6 @@ class Comment
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $username = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $content = null;
 
     #[ORM\Column]
@@ -30,26 +27,19 @@ class Comment
     #[ORM\JoinColumn(nullable: false)]
     private ?Post $post = null;
 
-	public function __construct() {
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+	public function __construct()
+    {
         $this->valid = false;
-		$this->createdAt = new \DateTime();
-	}
+        $this->createdAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
     }
 
     public function getContent(): ?string
@@ -101,7 +91,19 @@ class Comment
     }
 
 	public function __toString(): string
-	{
-		return $this->username;
-	}
+    {
+        return $this->content;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 }

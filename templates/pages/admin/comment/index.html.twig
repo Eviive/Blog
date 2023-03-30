@@ -17,7 +17,7 @@
             <tbody>
                 {% for c in invalidComments %}
                     <tr>
-                        <td>{{ c.username }}</td>
+                        <td>{{ c.user.username }}</td>
                         <td class="text-wrap">{{ c.content }}</td>
                         <td>{{ c.createdAt|format_datetime('medium', 'none', locale='en') }}</td>
                         <td>

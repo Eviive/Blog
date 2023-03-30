@@ -18,7 +18,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
 
         if ($pyJsPost instanceof Post && $user instanceof User) {
             $comment = new Comment();
-            $comment->setUsername($user->getUserIdentifier());
+            $comment->setUser($user);
             $comment->setContent('This is a comment');
             $comment->setValid(true);
             $comment->setCreatedAt(new \DateTime());

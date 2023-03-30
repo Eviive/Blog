@@ -3,7 +3,7 @@
 {% block title %}{{ post.title }} - {{ parent() }}{% endblock %}
 
 {% block main %}
-    <div class="mb-3">
+    <div class="mb-4">
         <h2>{{ post.title }}</h2>
         {% set date = (post.updatedAt != null) ? post.updatedAt : post.publishedAt %}
         <span class="text-muted">{{ date|format_datetime('long', 'none', locale='en') }}</span>
@@ -11,17 +11,61 @@
     <article class="post-content container">
         {{ post.content|sanitize_html }}
     </article>
-    <div class="mt-3">
-        <h3>Comments section</h3>
-        {% set validComments = post.comments|filter(c => c.valid) %}
-        {% if validComments is empty %}
-            <span class="text-muted">Be the first to leave a comment</span>
-        {% else %}
-            <ul>
-                {% for c in validComments %}
-                    <li>{{ c.content }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+    <div class="container mt-4">
+        <div class="row justify-content-between">
+            <div class="col-6">
+                <h3>Comments</h3>
+                {% set validComments = post.comments|filter(c => c.valid) %}
+                {% if validComments is empty %}
+                    <span class="text-muted">Be the first to leave a comment</span>
+                {% else %}
+                    <div class="d-flex flex-column gap-4 mt-4">
+                        {% for c in validComments %}
+                            <div class="text-justify p-3 rounded-2 shadow">
+                                <span class="my-1 text-muted">
+                                    {{ c.createdAt|format_datetime('medium', 'none', locale='en') }}
+                                    <span class="text-primary">{{ c.username }}</span>
+                                    says:
+                                </span>
+                                <hr class="mt-2 mb-3" />
+                                <p class="m-0">{{ c.content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-5 mb-auto sticky-top" style="top: 25px;">
+                <h3 class="mb-4">Leave a comment</h3>
+                {% if is_granted('ROLE_USER') %}
+                    {{ form_start(form, {
+                        attr: {
+                            class: 'd-flex flex-column gap-4'
+                        }
+                    }) }}
+                        {% include 'components/form/_errors.html.twig' with { field: form } %}
+
+                        <div class="form-floating w-100">
+                            {{ form_widget(form.content, {
+                                attr: {
+                                    id: 'typeTextX-1',
+                                    class: 'form-control',
+                                    placeholder: 'Content'
+                                }
+                            }) }}
+                            {{ form_label(form.content, 'Content', {
+                                attr: {
+                                    class: 'form-label'
+                                }
+                            }) }}
+                            {% include 'components/form/_errors.html.twig' with { field: form.content } %}
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Send</button>
+                    {{ form_end(form) }}
+                {% else %}
+                    <span class="text-muted">Sign in to start sharing !</span>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}

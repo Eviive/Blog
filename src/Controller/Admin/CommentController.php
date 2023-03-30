@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Comment;
-use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,56 +16,22 @@ class CommentController extends AbstractController
     public function index(CommentRepository $commentRepository): Response
     {
         return $this->render('pages/admin/comment/index.html.twig', [
-            'comments' => $commentRepository->findAll(),
+            'invalidComments' => $commentRepository->findAllInvalid(),
         ]);
     }
 
-    #[Route('/{id}', name: 'app_comment_show', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function show(Comment $comment): Response
+    #[Route('/{id}/validate', name: 'app_comment_validate', requirements: ['id' => '\d+'], methods: ['POST'])]
+    public function validate(Request $request, Comment $comment, CommentRepository $commentRepository): Response
     {
-        return $this->render('pages/admin/comment/show.html.twig', [
-            'comment' => $comment,
-        ]);
-    }
-
-    #[Route('/new', name: 'app_comment_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CommentRepository $commentRepository): Response
-    {
-        $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($this->isCsrfTokenValid('validate'.$comment->getId(), $request->request->get('_token'))) {
+            $comment->setValid(true);
             $commentRepository->save($comment, true);
-
-            return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('pages/admin/comment/new.html.twig', [
-            'comment' => $comment,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/edit', name: 'app_comment_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
-    public function edit(Request $request, Comment $comment, CommentRepository $commentRepository): Response
-    {
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commentRepository->save($comment, true);
-
-            return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('pages/admin/comment/edit.html.twig', [
-            'comment' => $comment,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_comment_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_comment_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function delete(Request $request, Comment $comment, CommentRepository $commentRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {

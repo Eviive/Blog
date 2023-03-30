@@ -1,0 +1,9 @@
+{% extends 'bundles/TwigBundle/Exception/error.html.twig' %}
+
+{% block body %}
+    {% include 'components/error/_error.html.twig' with {
+        'code': 403,
+        'title': "Access forbidden",
+        'message': "It looks like you should not be here.",
+    } %}
+{% endblock %}

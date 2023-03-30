@@ -1,0 +1,10 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}{{ status_code }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% include 'components/error/_error.html.twig' with {
+        'title': "An error occurred",
+        'message': "The server returned a " ~ status_code ~ " " ~ status_text ~ "."
+    } %}
+{% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'bundles/TwigBundle/Exception/error.html.twig' %}
 
-{% block body %}
+{% block main %}
     {% include 'components/error/_error.html.twig' with {
         'code': 403,
         'title': "Access forbidden",

@@ -197,4 +197,11 @@ class Post
 	{
 		return $this->title;
 	}
+
+    public function getEstimatedTime(): int
+    {
+        $words = str_word_count(strip_tags($this->content));
+
+        return ceil($words / 200);
+    }
 }

@@ -21,6 +21,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/ts/app.ts')
+    .addEntry('post', './assets/ts/post.ts')
 
     // ckeditor4
     .copyFiles([
@@ -83,4 +84,9 @@ Encore
     //.autoProvidejQuery()
 ;
 
-module.exports = Encore.getWebpackConfig();
+const config = Encore.getWebpackConfig();
+config.watchOptions = {
+    poll:true,
+};
+
+module.exports = config;

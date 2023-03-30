@@ -61,10 +61,9 @@ class PostController extends AbstractController
 
             $commentRepository->save($comment, true);
 
-            unset($comment);
-            unset($form);
-            $comment = new Comment();
-            $form = $this->createForm(CommentType::class, $comment);
+            return $this->redirectToRoute('app_home_post_show', [
+                'slug' => $post->getSlug(),
+            ]);
         }
 
         return $this->render('pages/user/post/show.html.twig', [

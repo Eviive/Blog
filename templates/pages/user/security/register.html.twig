@@ -35,19 +35,35 @@
 								</div>
 
 								<div class="form-floating w-100">
-									{{ form_widget(registerForm.plainPassword, {
+									{{ form_widget(registerForm.plainPassword.first, {
 										attr: {
 											id: 'typePasswordX-1',
 											class: 'form-control',
 											placeholder: 'Password'
 										}
 									}) }}
-									{{ form_label(registerForm.plainPassword, 'Password', {
+									{{ form_label(registerForm.plainPassword.first, 'Password', {
 										attr: {
 											class: 'form-label'
 										}
 									}) }}
-									{% include 'components/form/_errors.html.twig' with { field: registerForm.plainPassword } %}
+									{% include 'components/form/_errors.html.twig' with { field: registerForm.plainPassword.first } %}
+								</div>
+
+								<div class="form-floating w-100">
+									{{ form_widget(registerForm.plainPassword.second, {
+										attr: {
+											id: 'typePasswordX-2',
+											class: 'form-control',
+											placeholder: 'Confirm password'
+										}
+									}) }}
+									{{ form_label(registerForm.plainPassword.second, 'Confirm password', {
+										attr: {
+											class: 'form-label'
+										}
+									}) }}
+									{% include 'components/form/_errors.html.twig' with { field: registerForm.plainPassword.second } %}
 								</div>
 
 								<div class="form-check">

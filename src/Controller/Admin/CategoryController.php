@@ -36,10 +36,16 @@ class CategoryController extends AbstractController
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $categoryRepository->save($category, true);
+        if ($form->isSubmitted()) {
+            if (!$form->isValid()) {
+                $this->addFlash('warning', 'Please check your form for errors.');
+            } else {
+                $categoryRepository->save($category, true);
 
-            return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+                $this->addFlash('success', 'Category created successfully.');
+
+                return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->renderForm('pages/admin/category/new.html.twig', [
@@ -54,10 +60,19 @@ class CategoryController extends AbstractController
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $categoryRepository->save($category, true);
+        if ($form->isSubmitted()) {
+            if (!$form->isValid()) {
+                $this->addFlash('warning', 'Please check your form for errors.');
+            } else {
+                $categoryRepository->save($category, true);
 
-            return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+                $this->addFlash('success', [
+                    'message' => 'Category updated successfully, click here to see it.',
+                    'link' => $this->generateUrl('app_home_category_show', ['id' => $category->getId()])
+                ]);
+
+                return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->renderForm('pages/admin/category/edit.html.twig', [
@@ -71,6 +86,10 @@ class CategoryController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $categoryRepository->remove($category, true);
+
+            $this->addFlash('success', 'Category deleted successfully.');
+        } else {
+            $this->addFlash('warning', 'Invalid CSRF token, please try again.');
         }
 
         return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);

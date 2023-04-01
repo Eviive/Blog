@@ -55,15 +55,21 @@ class PostController extends AbstractController
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
-        if ($this->getUser() && $form->isSubmitted() && $form->isValid()) {
-            $comment->setUser($this->getUser());
-            $comment->setPost($post);
+        if ($this->getUser() && $form->isSubmitted()) {
+            if (!$form->isValid()) {
+                $this->addFlash('warning', 'Please check your form for errors.');
+            } else {
+                $comment->setUser($this->getUser());
+                $comment->setPost($post);
 
-            $commentRepository->save($comment, true);
+                $commentRepository->save($comment, true);
 
-            return $this->redirectToRoute('app_home_post_show', [
-                'slug' => $post->getSlug(),
-            ]);
+                $this->addFlash('success', 'Comment posted successfully.');
+
+                return $this->redirectToRoute('app_home_post_show', [
+                    'slug' => $post->getSlug(),
+                ]);
+            }
         }
 
         return $this->render('pages/user/post/show.html.twig', [

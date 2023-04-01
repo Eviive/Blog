@@ -32,11 +32,11 @@
 			{% block main %}{% endblock %}
 
 			<div class="toast-container position-fixed bottom-0 end-0 mb-3 me-3">
-				{% for label, messages in app.flashes %}
-					{% for message in messages %}
+				{% for label, contents in app.flashes %}
+					{% for content in contents %}
 						{% include 'components/flash/_flash.html.twig' with {
 							label: label,
-							message: message
+							content: content
 						} %}
 					{% endfor %}
 				{% endfor %}

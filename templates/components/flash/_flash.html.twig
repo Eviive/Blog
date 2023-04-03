@@ -1,0 +1,18 @@
+ <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+        <div class="rounded me-2 bg-{{ label }} text-white d-flex justify-content-center align-items-center" style="width: 20px; height: 20px;">
+            <i class="bi bi-bell-fill" style="font-size: 12px;"></i>
+        </div>
+        <strong class="me-auto">{{ label|capitalize }} !</strong>
+        <small class="time">Now</small>
+        <button type="button" class="btn-close" style="z-index: 1000;" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+        {% if content is iterable %}
+            {{ content.message }}
+            <a href="{{ content.link }}" class="stretched-link"></a>
+        {% else %}
+            {{ content }}
+        {% endif %}
+    </div>
+</div>

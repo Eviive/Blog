@@ -3,33 +3,40 @@
 {% block title %}Categories - {{ parent() }}{% endblock %}
 
 {% block main %}
-    <h1>Category index</h1>
+    <div class="table-responsive-sm">
+        <table class="table caption-top table-hover text-center align-middle text-nowrap">
+            <caption>Categories</caption>
+            <thead>
+                <tr class="fw-bold border-bottom border-dark">
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Posts</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for row in categories %}
+                {% set category = row[0] %}
+                {% set postCount = row.postCount %}
+                <tr>
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.name }}</td>
+                    <td>{{ postCount }}</td>
+                    <td>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a class="btn btn-primary" href="{{ path('app_category_edit', {'id': category.id}) }}">Edit</a>
+                            {% include 'pages/admin/category/_delete_form.html.twig' %}
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No categories found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category in categories %}
-            <tr>
-                <td>{{ category.id }}</td>
-                <td>{{ category.name }}</td>
-                <td>
-                    <a href="{{ path('app_category_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_category_new') }}">Create new</a>
+    <a class="mt-auto" href="{{ path('app_category_new') }}">Create a new category</a>
 {% endblock %}

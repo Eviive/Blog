@@ -23,12 +23,26 @@
 		{% block header %}
 			{% include 'components/_header.html.twig' %}
 		{% endblock %}
+
 		{% block nav %}
 			{{ render(controller('App\\Controller\\User\\CategoryController::getPopularCategories')) }}
 		{% endblock %}
+
 		<main class="container my-4 d-flex flex-column gap-4">
 			{% block main %}{% endblock %}
+
+			<div class="toast-container position-fixed bottom-0 end-0 mb-3 me-3">
+				{% for label, contents in app.flashes %}
+					{% for content in contents %}
+						{% include 'components/flash/_flash.html.twig' with {
+							label: label,
+							content: content
+						} %}
+					{% endfor %}
+				{% endfor %}
+			</div>
 		</main>
+
 		{% block footer %}
 			{% include 'components/_footer.html.twig' %}
 		{% endblock %}

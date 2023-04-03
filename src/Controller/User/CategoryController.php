@@ -15,7 +15,7 @@ class CategoryController extends AbstractController
     public function index(CategoryRepository $categoryRepository): Response
     {
         return $this->render('pages/user/category/index.html.twig', [
-            'categories' => $categoryRepository->findAllNotEmpty(),
+            'categories' => $categoryRepository->findAllNotEmptyAndPostsCount(),
         ]);
     }
 

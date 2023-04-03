@@ -3,11 +3,9 @@
 {% block title %}Edit category - {{ parent() }}{% endblock %}
 
 {% block main %}
-    <h1>Edit Category</h1>
+    <h1>Edit Category: {{ category.name }}</h1>
 
-    {{ include('pages/admin/category/_form.html.twig', {'button_label': 'Update'}) }}
+    {% include 'pages/admin/category/_form.html.twig' with {'button_label': 'Update'} %}
 
-    <a href="{{ path('app_category_index') }}">back to list</a>
-
-    {{ include('pages/admin/category/_delete_form.html.twig') }}
+    <a class="mt-auto" href="{{ path('app_category_index') }}">Back to the list</a>
 {% endblock %}

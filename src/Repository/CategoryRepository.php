@@ -56,13 +56,25 @@ class CategoryRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAllNotEmpty(): array
+    public function findAllNotEmptyAndPostsCount(): array
     {
         return $this->createQueryBuilder('c')
-            ->select('c', 'p')
+            ->select('c', 'COUNT(p.id) AS postCount')
             ->leftJoin('c.posts', 'p')
             ->groupBy('c.id')
             ->having('COUNT(p.id) > 0')
+            ->addOrderBy('COUNT(p.id)', 'DESC')
+            ->addOrderBy('c.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllAndCountPosts(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c', 'COUNT(p.id) AS postCount')
+            ->leftJoin('c.posts', 'p')
+            ->groupBy('c.id')
             ->addOrderBy('COUNT(p.id)', 'DESC')
             ->addOrderBy('c.name', 'ASC')
             ->getQuery()

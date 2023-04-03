@@ -64,7 +64,7 @@ class PostController extends AbstractController
 
                 $commentRepository->save($comment, true);
 
-                $this->addFlash('success', 'Comment posted successfully.');
+                $this->addFlash('success', 'Comment posted successfully, awaiting validation by the moderation team.');
 
                 return $this->redirectToRoute('app_home_post_show', [
                     'slug' => $post->getSlug(),

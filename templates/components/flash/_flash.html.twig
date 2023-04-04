@@ -8,11 +8,9 @@
         <button type="button" class="btn-close" style="z-index: 1000;" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
     <div class="toast-body">
-        {% if content is iterable %}
-            {{ content.message }}
-            <a href="{{ content.link }}" class="stretched-link"></a>
-        {% else %}
-            {{ content }}
+        {{ content.message }}
+        {% if content.link is defined %}
+            <a href="{{ content.link }}" target="_blank" class="stretched-link"></a>
         {% endif %}
     </div>
 </div>

@@ -83,6 +83,18 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findBySearch(mixed $search): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p', 'LEVENSHTEIN(p.title,:search) AS distance')
+            ->where('p.publishedAt is not NULL')
+            ->setParameter('search', $search)
+            ->orderBy('distance', 'ASC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */

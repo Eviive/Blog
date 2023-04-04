@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class SecurityController extends AbstractController
 {
-	#[Route('/register', name: 'app_security_register')]
+	#[Route('/register', name: 'app_security_register', methods: ['GET', 'POST'])]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, BlogAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         if ($this->getUser()) {
@@ -56,7 +56,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/login', name: 'app_security_login')]
+    #[Route(path: '/login', name: 'app_security_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
@@ -73,7 +73,7 @@ class SecurityController extends AbstractController
 		]);
     }
 
-    #[Route(path: '/logout', name: 'app_security_logout')]
+    #[Route(path: '/logout', name: 'app_security_logout', methods: ['GET'])]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

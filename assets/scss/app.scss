@@ -63,3 +63,39 @@ html {
 ::-webkit-scrollbar-thumb:hover {
 	background: hsl(240deg, 5%, 50%);
 }
+
+#search-container {
+	position: relative;
+
+	&:not(:focus-within) #search-results {
+		display: none;
+	}
+}
+
+#search-results {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 999;
+	width: 100%;
+	max-height: 300px;
+	overflow-y: auto;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-top: none;
+	border-radius: 0 0 5px 5px;
+
+	&:empty {
+		display: none;
+	}
+
+	& > a {
+		padding: 10px;
+		border-bottom: 1px solid #ccc;
+		cursor: pointer;
+
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+}

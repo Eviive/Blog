@@ -9,7 +9,9 @@ use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\PaginatorInterface;
+use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +21,7 @@ class PostController extends AbstractController
     /**
      * @throws NonUniqueResultException
      */
-    #[Route('/', name: 'app_home_index')]
+    #[Route('/', name: 'app_home_index', methods: ['GET'])]
     public function index(PostRepository $postRepository): Response
     {
         $featured = $postRepository->findFeaturedPost();
@@ -32,7 +34,7 @@ class PostController extends AbstractController
         ]);
     }
 
-    #[Route('/post', name: 'app_home_post')]
+    #[Route('/post', name: 'app_home_post', methods: ['GET'])]
     public function post(Request $request, PostRepository $postRepository, PaginatorInterface $paginator): Response
     {
         $pageNumber = $request->query->getInt('page', 1);
@@ -48,7 +50,7 @@ class PostController extends AbstractController
         ]);
     }
 
-    #[Route('/post/{slug}', name: 'app_home_post_show')]
+    #[Route('/post/{slug}', name: 'app_home_post_show', methods: ['GET', 'POST'])]
     public function show(Post $post, Request $request, CommentRepository $commentRepository): Response
     {
         $comment = new Comment();
@@ -76,5 +78,30 @@ class PostController extends AbstractController
             'post' => $post,
             'form' => $form->createView(),
         ]);
+    }
+
+    // search route
+    #[Route('/search', name: 'app_home_search', methods: ['GET'])]
+    public function search(Request $request, PostRepository $postRepository): JsonResponse
+    {
+        $search = $request->query->get('q');
+
+        if (!$search) {
+            return new JsonResponse([], 400);
+        }
+
+        $rows = $postRepository->findBySearch($search);
+
+        $json = [];
+
+        foreach ($rows as $row) {
+            $post = $row[0];
+            $json[] = [
+                'title' => $post->getTitle(),
+                'url' => $this->generateUrl('app_home_post_show', ['slug' => $post->getSlug()])
+            ];
+        }
+
+        return new JsonResponse($json);
     }
 }

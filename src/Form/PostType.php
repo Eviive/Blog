@@ -16,7 +16,6 @@ class PostType extends AbstractType
             ->add('title')
             ->add('description')
             ->add('content', CKEditorType::class)
-            ->add('updatedAt')
             ->add('publishedAt')
             ->add('categories')
         ;

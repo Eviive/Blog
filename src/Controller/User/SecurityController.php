@@ -29,7 +29,7 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted()) {
             if (!$form->isValid()) {
-                $this->addFlash('warning', 'Please check your form for errors.');
+                $this->addFlash('warning', ['message' => 'Please check your form for errors.']);
             } else {
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
@@ -41,7 +41,7 @@ class SecurityController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Your account has been created successfully.');
+                $this->addFlash('success', ['message' => 'Your account has been created successfully.']);
 
                 return $userAuthenticator->authenticateUser(
                     $user,

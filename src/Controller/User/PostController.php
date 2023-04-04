@@ -57,14 +57,14 @@ class PostController extends AbstractController
 
         if ($this->getUser() && $form->isSubmitted()) {
             if (!$form->isValid()) {
-                $this->addFlash('warning', 'Please check your form for errors.');
+                $this->addFlash('warning', ['message' => 'Please check your form for errors.']);
             } else {
                 $comment->setUser($this->getUser());
                 $comment->setPost($post);
 
                 $commentRepository->save($comment, true);
 
-                $this->addFlash('success', 'Comment posted successfully, awaiting validation by the moderation team.');
+                $this->addFlash('success', ['message' => 'Comment posted successfully, awaiting validation by the moderation team.']);
 
                 return $this->redirectToRoute('app_home_post_show', [
                     'slug' => $post->getSlug(),

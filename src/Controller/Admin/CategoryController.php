@@ -21,14 +21,6 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_category_show', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function show(Category $category): Response
-    {
-        return $this->render('pages/admin/category/show.html.twig', [
-            'category' => $category,
-        ]);
-    }
-
     #[Route('/new', name: 'app_category_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CategoryRepository $categoryRepository): Response
     {
@@ -38,19 +30,19 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted()) {
             if (!$form->isValid()) {
-                $this->addFlash('warning', 'Please check your form for errors.');
+                $this->addFlash('warning', ['message' => 'Please check your form for errors.']);
             } else {
                 $categoryRepository->save($category, true);
 
-                $this->addFlash('success', 'Category created successfully.');
+                $this->addFlash('success', ['message' => 'Category created successfully.']);
 
                 return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
             }
         }
 
-        return $this->renderForm('pages/admin/category/new.html.twig', [
+        return $this->render('pages/admin/category/new.html.twig', [
             'category' => $category,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -62,7 +54,7 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted()) {
             if (!$form->isValid()) {
-                $this->addFlash('warning', 'Please check your form for errors.');
+                $this->addFlash('warning', ['message' => 'Please check your form for errors.']);
             } else {
                 $categoryRepository->save($category, true);
 
@@ -75,9 +67,9 @@ class CategoryController extends AbstractController
             }
         }
 
-        return $this->renderForm('pages/admin/category/edit.html.twig', [
+        return $this->render('pages/admin/category/edit.html.twig', [
             'category' => $category,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -87,9 +79,9 @@ class CategoryController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $categoryRepository->remove($category, true);
 
-            $this->addFlash('success', 'Category deleted successfully.');
+            $this->addFlash('success', ['message' => 'Category deleted successfully.']);
         } else {
-            $this->addFlash('warning', 'Invalid CSRF token, please try again.');
+            $this->addFlash('warning', ['message' => 'Invalid CSRF token, please try again.']);
         }
 
         return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);

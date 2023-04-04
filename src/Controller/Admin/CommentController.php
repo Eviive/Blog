@@ -27,9 +27,9 @@ class CommentController extends AbstractController
             $comment->setValid(true);
             $commentRepository->save($comment, true);
 
-            $this->addFlash('success', 'Comment successfully validated.');
+            $this->addFlash('success', ['message' => 'Comment successfully validated.']);
         } else {
-            $this->addFlash('warning', 'Invalid CSRF token, please try again.');
+            $this->addFlash('warning', ['message' => 'Invalid CSRF token, please try again.']);
         }
 
         return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
@@ -41,9 +41,9 @@ class CommentController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
             $commentRepository->remove($comment, true);
 
-            $this->addFlash('success', 'Comment successfully deleted.');
+            $this->addFlash('success', ['message' => 'Comment successfully deleted.']);
         } else {
-            $this->addFlash('warning', 'Invalid CSRF token, please try again.');
+            $this->addFlash('warning', ['message' => 'Invalid CSRF token, please try again.']);
         }
 
         return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);

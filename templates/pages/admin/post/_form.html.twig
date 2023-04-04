@@ -47,22 +47,6 @@
     </div>
 
     <div class="form-floating w-100">
-        {{ form_widget(form.updatedAt, {
-            attr: {
-                id: 'typeDateX-1',
-                class: 'form-control',
-                placeholder: 'Updated at'
-            }
-        }) }}
-        {{ form_label(form.updatedAt, 'Updated at', {
-            attr: {
-                class: 'form-label'
-            }
-        }) }}
-        {% include 'components/form/_errors.html.twig' with { field: form.updatedAt } %}
-    </div>
-
-    <div class="form-floating w-100">
         {{ form_widget(form.publishedAt, {
             attr: {
                 id: 'typeDateX-2',

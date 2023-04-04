@@ -23,14 +23,6 @@ class PostController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'app_post_show', methods: ['GET'])]
-    public function show(Post $post): Response
-    {
-        return $this->render('pages/admin/post/show.html.twig', [
-            'post' => $post,
-        ]);
-    }
-
     #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PostRepository $postRepository, SluggerInterface $slugger, HtmlSanitizerInterface $sanitizer): Response
     {
@@ -40,29 +32,22 @@ class PostController extends AbstractController
 
         if ($form->isSubmitted()) {
             if (!$form->isValid()) {
-                $this->addFlash('warning', 'Please check your form for errors.');
+                $this->addFlash('warning', ['message' => 'Please check your form for errors.']);
             } else {
                 $post->setSlug($slugger->slug($post->getTitle())->lower());
                 $post->setContent($sanitizer->sanitize($post->getContent()));
 
                 $postRepository->save($post, true);
 
-                $route = $post->getPublishedAt()
-                    ? 'app_home_post_show'
-                    : 'app_post_show';
-
-                $this->addFlash('success', [
-                    'message' => 'Post created successfully, click here to see it.',
-                    'link' => $this->generateUrl($route, ['slug' => $post->getSlug()])
-                ]);
+                $this->addFlash('success', ['message' => 'Post created successfully.']);
 
                 return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
             }
         }
 
-        return $this->renderForm('pages/admin/post/new.html.twig', [
+        return $this->render('pages/admin/post/new.html.twig', [
             'post' => $post,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -74,29 +59,32 @@ class PostController extends AbstractController
 
         if ($form->isSubmitted()) {
             if (!$form->isValid()) {
-                $this->addFlash('warning', 'Please check your form for errors.');
+                $this->addFlash('warning', ['message' => 'Please check your form for errors.']);
             } else {
                 $post->setSlug($slugger->slug($post->getTitle())->lower());
                 $post->setContent($sanitizer->sanitize($post->getContent()));
+                $post->setUpdatedAt(new \DateTime());
 
                 $postRepository->save($post, true);
 
-                $route = $post->getPublishedAt()
-                    ? 'app_home_post_show'
-                    : 'app_post_show';
+                $flashContent = ['message' => 'Post updated successfully.'];
 
-                $this->addFlash('success', [
-                    'message' => 'Post updated successfully, click here to see it.',
-                    'link' => $this->generateUrl($route, ['slug' => $post->getSlug()])
-                ]);
+                if ($post->getPublishedAt()) {
+                    $flashContent = [
+                        'message' => 'Post updated successfully, click here to see it.',
+                        'link' => $this->generateUrl('app_home_post_show', ['slug' => $post->getSlug()])
+                    ];
+                }
+
+                $this->addFlash('success', $flashContent);
 
                 return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
             }
         }
 
-        return $this->renderForm('pages/admin/post/edit.html.twig', [
+        return $this->render('pages/admin/post/edit.html.twig', [
             'post' => $post,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -106,9 +94,9 @@ class PostController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
             $postRepository->remove($post, true);
 
-            $this->addFlash('success', 'Post deleted successfully.');
+            $this->addFlash('success', ['message' => 'Post deleted successfully.']);
         } else {
-            $this->addFlash('warning', 'Invalid CSRF token, please try again.');
+            $this->addFlash('warning', ['message' => 'Invalid CSRF token, please try again.']);
         }
 
         return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);

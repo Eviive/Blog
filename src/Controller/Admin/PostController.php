@@ -101,4 +101,28 @@ class PostController extends AbstractController
 
         return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{slug}/publish', name: 'app_post_publish', methods: ['POST'])]
+    public function publish(Request $request, Post $post, PostRepository $postRepository): Response
+    {
+        if ($this->isCsrfTokenValid('publish'.$post->getId(), $request->request->get('_token'))) {
+            if ($post->getPublishedAt()) {
+                $post->setPublishedAt(null);
+
+                $this->addFlash('success', ['message' => 'Post successfully unpublished.']);
+            } else {
+                $post->setPublishedAt(new \DateTime());
+
+                $this->addFlash('success', [
+                    'message' => 'Post successfully published, click here to see it.',
+                    'link' => $this->generateUrl('app_home_post_show', ['slug' => $post->getSlug()])
+                ]);
+            }
+            $postRepository->save($post, true);
+        } else {
+            $this->addFlash('warning', ['message' => 'Invalid CSRF token, please try again.']);
+        }
+
+        return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+    }
 }

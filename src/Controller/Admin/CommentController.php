@@ -27,7 +27,10 @@ class CommentController extends AbstractController
             $comment->setValid(true);
             $commentRepository->save($comment, true);
 
-            $this->addFlash('success', ['message' => 'Comment successfully validated.']);
+            $this->addFlash('success', [
+                'message' => 'Comment successfully validated, click here to see it.',
+                'link' => $this->generateUrl('app_home_post_show', ['slug' => $comment->getPost()->getSlug()]),
+            ]);
         } else {
             $this->addFlash('warning', ['message' => 'Invalid CSRF token, please try again.']);
         }

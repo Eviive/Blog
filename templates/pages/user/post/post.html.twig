@@ -3,7 +3,7 @@
 {% block title %}Posts - {{ parent() }}{% endblock %}
 
 {% block main %}
-    <ul class="pagination">
+    <ul class="pagination rounded shadow-sm" style="width: fit-content;">
         <li class="page-item">
             {{ knp_pagination_sortable(pagination, 'Id', 'p.id', options = {
                 class: pagination.isSorted('p.id') ? 'page-link active' : 'page-link'
@@ -29,7 +29,7 @@
 
     {% set renderPagination = knp_pagination_render(pagination) %}
     {% if renderPagination|length > 0 %}
-        <div class="navigation mx-auto mt-auto">
+        <div class="m-auto mb-0">
             {{ renderPagination|raw }}
         </div>
     {% endif %}

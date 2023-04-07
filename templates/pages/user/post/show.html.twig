@@ -21,7 +21,7 @@
         </span>
     </div>
     <article class="post-content container">
-        {{ post.content|sanitize_html }}
+        {{ post.content|sanitize_html('app.post_sanitizer') }}
     </article>
     <div class="container mt-4">
         <div class="row justify-content-between">

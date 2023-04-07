@@ -6,3 +6,17 @@ fos_ck_editor:
         entity_form_config:
             toolbar: 'full'
             uiColor: '#ffffff'
+            image:
+                resizeUnit: '%'
+                resizeOptions:
+                    handleStyles: {
+                        backgroundColor: '#000',
+                        border: '1px solid #ccc'
+                    }
+                imageCaption: true
+                imageStyle: {
+                    options: [
+                        'alignLeft', 'alignCenter', 'alignRight'
+                    ]
+                }
+            extraPlugins: [image2]

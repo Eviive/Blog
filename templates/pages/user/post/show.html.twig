@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block main %}
-    <div class="mb-4">
+    <div class="mb-4 mx-2 mx-md-5">
         <h2>{{ post.title }}</h2>
         {% set date = (post.updatedAt != null) ? post.updatedAt : post.publishedAt %}
         <span class="text-muted d-flex align-items-center gap-1">
@@ -20,9 +20,12 @@
             </button>
         </span>
     </div>
-    <article class="post-content container">
+    <article class="post-content container col-md-8 col-12">
         {{ post.content|sanitize_html('app.post_sanitizer') }}
     </article>
+    <link href="/build/ckeditor/plugins/codesnippet/lib/highlight/styles/default.css" rel="stylesheet">
+    <script src="/build/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     <div class="container mt-4">
         <div class="row justify-content-between">
             <div class="col-6">

@@ -21,18 +21,12 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         $user1 = $this->getReference('user1');
         $user2 = $this->getReference('user2');
 
-        if (!($user1 instanceof User && $user2 instanceof User)) {
-            throw new Exception('User1 and user2 not found, UserFixtures must be loaded first');
-        }
-
         $pyJsPost = $this->getReference('post_pyjs');
         $cppPost = $this->getReference('post_cpp');
         $aiPost = $this->getReference('post_ai');
         $devopsPost = $this->getReference('post_devops');
-
-        if (!($pyJsPost instanceof Post && $cppPost instanceof Post && $aiPost instanceof Post && $devopsPost instanceof Post)) {
-            throw new Exception('Posts not found, PostFixtures must be loaded first');
-        }
+        $dbPost = $this->getReference('post_db');
+        $javaPost = $this->getReference('post_java');
 
         $comments = [
             ['user' => $user1, 'post' => $pyJsPost, 'content' => 'I love JavaScript!'],
@@ -44,6 +38,10 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
             ['user' => $user2, 'post' => $aiPost, 'content' => 'I\'m kinda scared of AI...'],
             ['user' => $user1, 'post' => $devopsPost, 'content' => 'I\'m a DevOps engineer, I\'m glad to see this article!'],
             ['user' => $user2, 'post' => $devopsPost, 'content' => 'DevOps is fascinating!'],
+            ['user' => $user1, 'post' => $dbPost, 'content' => 'Recently dropped my entire production database, wish I had read this article before.'],
+            ['user' => $user2, 'post' => $dbPost, 'content' => 'Just started learning SQL, this article is very helpful!'],
+            ['user' => $user1, 'post' => $javaPost, 'content' => 'Code snippets are very helpful!'],
+            ['user' => $user2, 'post' => $javaPost, 'content' => 'I did not know Java could be used for mobile apps!'],
         ];
 
         foreach ($comments as $commentData) {

@@ -5,3 +5,4 @@ framework:
                 allow_safe_elements: true
                 allow_attributes:
                     style: '*'
+                    class: '*'

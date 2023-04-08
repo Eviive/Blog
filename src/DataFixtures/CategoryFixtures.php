@@ -13,11 +13,11 @@ class CategoryFixtures extends Fixture
         $categoryNames = [
             'Languages',
             'Web',
-            'Mobile', // no article
-            'Databases', // no article
+            'Mobile',
+            'Databases',
             'DevOps',
             'AI',
-            'Cybersecurity', // no article
+            'Cybersecurity',
             'Career',
             'Snippets',
             'Cloud',

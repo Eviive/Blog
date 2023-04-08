@@ -19,4 +19,8 @@ fos_ck_editor:
                         'alignLeft', 'alignCenter', 'alignRight'
                     ]
                 }
-            extraPlugins: [image2]
+            removePlugins: 'image'
+            extraPlugins: [image2, codesnippet]
+    toolbars:
+        items:
+            full.about: [ 'CodeSnippet' ]

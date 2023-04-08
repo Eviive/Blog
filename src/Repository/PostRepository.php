@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -41,15 +42,29 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-    public function findOrderedByCommentsCount(): Query
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findMostRecentPost(): Post | null
     {
         return $this->createQueryBuilder('p')
             ->select('p')
-            ->leftJoin('p.comments', 'c')
             ->where('p.publishedAt is not NULL')
-            ->groupBy('p.id')
-            ->addOrderBy('COUNT(c.id)', 'DESC')
             ->addOrderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function findOrderedByCommentsCount(int $except): Query
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.publishedAt is not NULL')
+            ->andWhere('p.id != :except')
+            ->addOrderBy('p.createdAt', 'DESC')
+            ->setParameter('except', $except)
             ->getQuery()
         ;
     }

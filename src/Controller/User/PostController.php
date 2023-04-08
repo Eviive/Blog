@@ -9,7 +9,6 @@ use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\PaginatorInterface;
-use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,29 +17,40 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PostController extends AbstractController
 {
+
+    /**
+     * @throws NonUniqueResultException
+     */
     #[Route('/', name: 'app_home_index', methods: ['GET'])]
     public function index(PostRepository $postRepository, PaginatorInterface $paginator): Response
     {
-        $posts = $paginator->paginate(
-            $postRepository->findOrderedByCommentsCount(),
+        $featured = $postRepository->findMostRecentPost();
+
+        $posts = $featured ? $paginator->paginate(
+            $postRepository->findOrderedByCommentsCount($featured->getId()),
             1,
-            5
-        )->getItems();
+            4
+        ) : [];
 
         return $this->render('pages/user/post/index.html.twig', [
-            'featured' => array_shift($posts),
-            'posts' => $posts
+            'featured' => $featured,
+            'posts' => $posts,
         ]);
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     #[Route('/infinite-scroll', name: 'app_home_infinite_scroll', methods: ['GET'])]
     public function infiniteScroll(Request $request, PostRepository $postRepository, PaginatorInterface $paginator): JsonResponse
     {
-        $pageNumber = $request->query->getInt('page', 1);
+        $pageNumber = $request->query->getInt('page', 2);
+
+        $featured = $postRepository->findMostRecentPost();
 
         $pagination = $paginator->paginate(
-            $postRepository->findOrderedByCommentsCount(),
-            max($pageNumber, 1),
+            $postRepository->findOrderedByCommentsCount($featured->getId()),
+            max($pageNumber, 2),
             4
         );
 

@@ -2,6 +2,11 @@
 
 {% block title %}New post - {{ parent() }}{% endblock %}
 
+{% block scripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('preventLeaving') }}
+{% endblock %}
+
 {% block main %}
     <h1>Create a new Post</h1>
 

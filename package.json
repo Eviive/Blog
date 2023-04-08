@@ -4,6 +4,7 @@
         "@babel/preset-env": "^7.16.0",
         "@symfony/webpack-encore": "^4.0.0",
         "@types/bootstrap": "^5.2.6",
+        "@types/ckeditor4": "^4.16.5",
         "@types/jquery": "^3.5.16",
         "bootstrap": "^5.2.3",
         "bootstrap-icons": "^1.10.3",

@@ -6,7 +6,6 @@ use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,7 +23,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PostRepository $postRepository, SluggerInterface $slugger, HtmlSanitizerInterface $sanitizer): Response
+    public function new(Request $request, PostRepository $postRepository, SluggerInterface $slugger): Response
     {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
@@ -35,7 +34,6 @@ class PostController extends AbstractController
                 $this->addFlash('warning', ['message' => 'Please check your form for errors.']);
             } else {
                 $post->setSlug($slugger->slug($post->getTitle())->lower());
-                $post->setContent($sanitizer->sanitize($post->getContent()));
 
                 $postRepository->save($post, true);
 
@@ -52,7 +50,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/{slug}/edit', name: 'app_post_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Post $post, PostRepository $postRepository, SluggerInterface $slugger, HtmlSanitizerInterface $sanitizer): Response
+    public function edit(Request $request, Post $post, PostRepository $postRepository, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -62,7 +60,6 @@ class PostController extends AbstractController
                 $this->addFlash('warning', ['message' => 'Please check your form for errors.']);
             } else {
                 $post->setSlug($slugger->slug($post->getTitle())->lower());
-                $post->setContent($sanitizer->sanitize($post->getContent()));
                 $post->setUpdatedAt(new \DateTime());
 
                 $postRepository->save($post, true);

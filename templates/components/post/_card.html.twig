@@ -1,10 +1,11 @@
-<div class="col">
+<div class="col post">
     <div class="card h-100 shadow">
         <div class="card-body position-relative d-flex flex-column align-items-start gap-1">
             <div class="d-flex align-items-center gap-2 text-primary fw-bold">
                 {% for c in post.categories %}
                     <a href="{{ path('app_home_category_show', { id: c.id }) }}"
-                       class="p-0" style="z-index: 100">
+                       class="p-0"
+                       style="z-index: 100">
                         <small>{{ c.name }}</small>
                     </a>
                 {% endfor %}
@@ -12,7 +13,19 @@
             <h5 class="card-title">{{ post.title }}</h5>
             <hr class="w-100 mt-2 mb-3" />
             <p class="card-text">{{ post.description }}</p>
-            <a href="{{ path('app_home_post_show', { slug : post.slug }) }}" class="btn btn-primary stretched-link mt-auto">Continue reading</a>
+            <div class="mt-auto d-flex align-items-center gap-2">
+                <a href="{{ path('app_home_post_show', { slug : post.slug }) }}"
+                   class="btn btn-primary stretched-link d-inline">
+                    Continue reading
+                </a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_post_edit', { slug : post.slug }) }}"
+                       class="btn btn-secondary d-inline"
+                       style="z-index: 100;">
+                        Edit
+                    </a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

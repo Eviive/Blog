@@ -9,7 +9,6 @@ use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\PaginatorInterface;
-use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,20 +17,60 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PostController extends AbstractController
 {
+
     /**
      * @throws NonUniqueResultException
      */
     #[Route('/', name: 'app_home_index', methods: ['GET'])]
-    public function index(PostRepository $postRepository): Response
+    public function index(PostRepository $postRepository, PaginatorInterface $paginator): Response
     {
-        $featured = $postRepository->findFeaturedPost();
-
-        $posts = $featured ? $postRepository->findAllExcept($featured->getId()) : [];
+        [ 'featured' => $featured, 'pagination' => $pagination ] = $this->getPosts($postRepository, $paginator);
 
         return $this->render('pages/user/post/index.html.twig', [
             'featured' => $featured,
-            'posts' => $posts,
+            'posts' => $pagination ? $pagination->getItems() : []
         ]);
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    #[Route('/infinite-scroll', name: 'app_home_infinite_scroll', methods: ['GET'])]
+    public function infiniteScroll(Request $request, PostRepository $postRepository, PaginatorInterface $paginator): JsonResponse
+    {
+        $pageNumber = $request->query->getInt('page', 2);
+
+        [ 'pagination' => $pagination ] = $this->getPosts($postRepository, $paginator, $pageNumber);
+
+        $hasNextPage = $pagination && $pagination->getCurrentPageNumber() < ($pagination->getTotalItemCount() / $pagination->getItemNumberPerPage());
+
+        $html = $this->renderView('pages/user/post/_infinite_scroll.html.twig', [
+            'posts' => $pagination ? $pagination->getItems() : []
+        ]);
+
+        return new JsonResponse([
+            'html' => $html,
+            'hasNextPage' => $hasNextPage
+        ]);
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    private function getPosts(PostRepository $postRepository, PaginatorInterface $paginator, int $pageNumber = 1): array
+    {
+        $featured = $postRepository->findMostRecentPost();
+
+        $pagination = $featured ? $paginator->paginate(
+            $postRepository->findOrderedByCommentsCount($featured->getId()),
+            max($pageNumber, 1),
+            4
+        ) : null;
+
+        return [
+            'featured' => $featured,
+            'pagination' => $pagination
+        ];
     }
 
     #[Route('/post', name: 'app_home_post', methods: ['GET'])]

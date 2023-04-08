@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -42,34 +43,29 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Post|null
      * @throws NonUniqueResultException
      */
-    public function findFeaturedPost(): Post | null
+    public function findMostRecentPost(): Post | null
     {
         return $this->createQueryBuilder('p')
             ->select('p')
-            ->leftJoin('p.comments', 'c')
-            ->groupBy('p.id')
-            ->having('p.publishedAt is not NULL')
-            ->addOrderBy('COUNT(c.id)', 'DESC')
+            ->where('p.publishedAt is not NULL')
             ->addOrderBy('p.createdAt', 'DESC')
-            ->setMaxResults(1)
             ->getQuery()
+            ->setMaxResults(1)
             ->getOneOrNullResult()
         ;
     }
 
-    public function findAllExcept(int $id): array
+    public function findOrderedByCommentsCount(int $except): Query
     {
         return $this->createQueryBuilder('p')
             ->select('p')
-            ->andWhere('p.publishedAt is not NULL')
-            ->andwhere('p.id != :id')
-            ->setParameter('id', $id)
-            ->orderBy('p.createdAt', 'DESC')
+            ->where('p.publishedAt is not NULL')
+            ->andWhere('p.id != :except')
+            ->addOrderBy('p.createdAt', 'DESC')
+            ->setParameter('except', $except)
             ->getQuery()
-            ->getResult()
         ;
     }
 

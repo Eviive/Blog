@@ -24,17 +24,11 @@ class PostController extends AbstractController
     #[Route('/', name: 'app_home_index', methods: ['GET'])]
     public function index(PostRepository $postRepository, PaginatorInterface $paginator): Response
     {
-        $featured = $postRepository->findMostRecentPost();
-
-        $posts = $featured ? $paginator->paginate(
-            $postRepository->findOrderedByCommentsCount($featured->getId()),
-            1,
-            4
-        ) : [];
+        [ 'featured' => $featured, 'pagination' => $pagination ] = $this->getPosts($postRepository, $paginator);
 
         return $this->render('pages/user/post/index.html.twig', [
             'featured' => $featured,
-            'posts' => $posts,
+            'posts' => $pagination ? $pagination->getItems() : []
         ]);
     }
 
@@ -46,22 +40,37 @@ class PostController extends AbstractController
     {
         $pageNumber = $request->query->getInt('page', 2);
 
-        $featured = $postRepository->findMostRecentPost();
+        [ 'pagination' => $pagination ] = $this->getPosts($postRepository, $paginator, $pageNumber);
 
-        $pagination = $paginator->paginate(
-            $postRepository->findOrderedByCommentsCount($featured->getId()),
-            max($pageNumber, 2),
-            4
-        );
+        $hasNextPage = $pagination && $pagination->getCurrentPageNumber() < ($pagination->getTotalItemCount() / $pagination->getItemNumberPerPage());
 
         $html = $this->renderView('pages/user/post/_infinite_scroll.html.twig', [
-            'posts' => $pagination->getItems(),
+            'posts' => $pagination ? $pagination->getItems() : []
         ]);
 
         return new JsonResponse([
             'html' => $html,
-            'hasNextPage' => $pagination->getCurrentPageNumber() < ($pagination->getTotalItemCount() / $pagination->getItemNumberPerPage())
+            'hasNextPage' => $hasNextPage
         ]);
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    private function getPosts(PostRepository $postRepository, PaginatorInterface $paginator, int $pageNumber = 1): array
+    {
+        $featured = $postRepository->findMostRecentPost();
+
+        $pagination = $featured ? $paginator->paginate(
+            $postRepository->findOrderedByCommentsCount($featured->getId()),
+            max($pageNumber, 1),
+            4
+        ) : null;
+
+        return [
+            'featured' => $featured,
+            'pagination' => $pagination
+        ];
     }
 
     #[Route('/post', name: 'app_home_post', methods: ['GET'])]

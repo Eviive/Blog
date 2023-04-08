@@ -4,9 +4,5 @@
 
 {% block main %}
     <h3>{{ category.name }}</h3>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mb-4">
-        {% for p in category.posts %}
-            {% include 'components/post/_card.html.twig' with { post: p } %}
-        {% endfor %}
-    </div>
+    {% include 'pages/user/post/_paginated.html.twig' with { pagination: pagination } %}
 {% endblock %}

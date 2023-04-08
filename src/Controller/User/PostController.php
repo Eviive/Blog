@@ -62,7 +62,7 @@ class PostController extends AbstractController
         $featured = $postRepository->findMostRecentPost();
 
         $pagination = $featured ? $paginator->paginate(
-            $postRepository->findOrderedByCommentsCount($featured->getId()),
+            $postRepository->findAllExcept($featured->getId()),
             max($pageNumber, 1),
             4
         ) : null;

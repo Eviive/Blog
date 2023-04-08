@@ -1,0 +1,30 @@
+<ul class="pagination rounded shadow-sm" style="width: fit-content;">
+    <li class="page-item">
+        {{ knp_pagination_sortable(pagination, 'Id', 'p.id', options = {
+            class: pagination.isSorted('p.id') ? 'page-link active' : 'page-link'
+        }) }}
+    </li>
+    <li class="page-item">
+        {{ knp_pagination_sortable(pagination, 'Title', 'p.title', options = {
+            class: pagination.isSorted('p.title') ? 'page-link active' : 'page-link'
+        }) }}
+    </li>
+    <li class="page-item">
+        {{ knp_pagination_sortable(pagination, 'Release', 'p.publishedAt', options = {
+            class: pagination.isSorted('p.publishedAt') ? 'page-link active' : 'page-link'
+        }) }}
+    </li>
+</ul>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mb-4">
+    {% for post in pagination %}
+        {% include 'components/post/_card.html.twig' with { post: post } %}
+    {% endfor %}
+</div>
+
+{% set renderPagination = knp_pagination_render(pagination) %}
+    {% if renderPagination|length > 0 %}
+        <div class="m-auto mb-0">
+            {{ renderPagination|raw }}
+        </div>
+{% endif %}

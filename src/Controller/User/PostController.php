@@ -129,12 +129,11 @@ class PostController extends AbstractController
             return new JsonResponse([], 400);
         }
 
-        $rows = $postRepository->findBySearch($search);
+        $posts = $postRepository->findBySearch($search);
 
         $json = [];
 
-        foreach ($rows as $row) {
-            $post = $row[0];
+        foreach ($posts as $post) {
             $json[] = [
                 'title' => $post->getTitle(),
                 'url' => $this->generateUrl('app_home_post_show', ['slug' => $post->getSlug()])

@@ -18,19 +18,39 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PostController extends AbstractController
 {
-    /**
-     * @throws NonUniqueResultException
-     */
     #[Route('/', name: 'app_home_index', methods: ['GET'])]
-    public function index(PostRepository $postRepository): Response
+    public function index(PostRepository $postRepository, PaginatorInterface $paginator): Response
     {
-        $featured = $postRepository->findFeaturedPost();
-
-        $posts = $featured ? $postRepository->findAllExcept($featured->getId()) : [];
+        $posts = $paginator->paginate(
+            $postRepository->findOrderedByCommentsCount(),
+            1,
+            5
+        )->getItems();
 
         return $this->render('pages/user/post/index.html.twig', [
-            'featured' => $featured,
-            'posts' => $posts,
+            'featured' => array_shift($posts),
+            'posts' => $posts
+        ]);
+    }
+
+    #[Route('/infinite-scroll', name: 'app_home_infinite_scroll', methods: ['GET'])]
+    public function infiniteScroll(Request $request, PostRepository $postRepository, PaginatorInterface $paginator): JsonResponse
+    {
+        $pageNumber = $request->query->getInt('page', 1);
+
+        $pagination = $paginator->paginate(
+            $postRepository->findOrderedByCommentsCount(),
+            max($pageNumber, 1),
+            4
+        );
+
+        $html = $this->renderView('pages/user/post/_infinite_scroll.html.twig', [
+            'posts' => $pagination->getItems(),
+        ]);
+
+        return new JsonResponse([
+            'html' => $html,
+            'hasNextPage' => $pagination->getCurrentPageNumber() < ($pagination->getTotalItemCount() / $pagination->getItemNumberPerPage())
         ]);
     }
 

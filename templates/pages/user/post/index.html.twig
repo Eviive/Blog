@@ -2,6 +2,11 @@
 
 {% block title %}Home - {{ parent() }}{% endblock %}
 
+{% block scripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('infiniteScroll') }}
+{% endblock %}
+
 {% block main %}
     {% if featured %}
         <div class="d-flex p-4 p-md-5 text-white rounded bg-dark mb-3 shadow position-relative">
@@ -41,7 +46,7 @@
         </div>
     {% endif %}
 
-    <div class="row row-cols-2 g-4">
+    <div id="infinite-scroll" class="row row-cols-2 g-4">
         {% for p in posts %}
             {% include 'components/post/_card.html.twig' with { post: p } %}
         {% endfor %}

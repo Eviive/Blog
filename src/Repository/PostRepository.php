@@ -41,35 +41,16 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @return Post|null
-     * @throws NonUniqueResultException
-     */
-    public function findFeaturedPost(): Post | null
+    public function findOrderedByCommentsCount(): Query
     {
         return $this->createQueryBuilder('p')
             ->select('p')
             ->leftJoin('p.comments', 'c')
+            ->where('p.publishedAt is not NULL')
             ->groupBy('p.id')
-            ->having('p.publishedAt is not NULL')
             ->addOrderBy('COUNT(c.id)', 'DESC')
             ->addOrderBy('p.createdAt', 'DESC')
-            ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-
-    public function findAllExcept(int $id): array
-    {
-        return $this->createQueryBuilder('p')
-            ->select('p')
-            ->andWhere('p.publishedAt is not NULL')
-            ->andwhere('p.id != :id')
-            ->setParameter('id', $id)
-            ->orderBy('p.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult()
         ;
     }
 

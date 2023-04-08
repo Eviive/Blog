@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/ts/app.ts')
     .addEntry('post', './assets/ts/post.ts')
+    .addEntry('infiniteScroll', './assets/ts/infiniteScroll.ts')
 
     // ckeditor4
     .copyFiles([

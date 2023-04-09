@@ -1,0 +1,54 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Home - {{ parent() }}{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('infiniteScroll') }}
+{% endblock %}
+
+{% block main %}
+    {% if featured %}
+        <div class="d-flex p-4 p-md-5 text-white rounded bg-dark mb-3 shadow position-relative">
+            <div>
+                <h2 class="display-4 fst-italic">{{ featured.title }}</h2>
+                <div>
+                    <div class="col-md-8">
+                        <p class="lead my-3">{{ featured.description }}</p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <p class="lead mb-0">
+                            <a href="{{ path('app_home_post_show', { slug: featured.slug }) }}" class="text-white fw-bold stretched-link">Continue reading</a>
+                        </p>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <p class="lead mb-0">
+                                <a href="{{ path('app_post_edit', { slug : featured.slug }) }}"
+                                   class="text-white fw-bold position-relative"
+                                   style="z-index: 100;">
+                                    Edit
+                                </a>
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="ms-auto d-flex">
+                <div class="vr mx-4"></div>
+                <div class="d-flex flex-column gap-1">
+                    {% for c in featured.categories %}
+                        <a href="{{ path('app_home_category_show', { id: c.id }) }}"
+                           class="p-0" style="z-index: 100">
+                            <span class="badge bg-light text-black w-100">{{ c.name }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div id="infinite-scroll" class="row row-cols-2 g-4">
+        {% for p in posts %}
+            {% include 'components/post/_card.html.twig' with { post: p } %}
+        {% endfor %}
+    </div>
+{% endblock %}

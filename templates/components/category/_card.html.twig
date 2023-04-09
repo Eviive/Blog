@@ -1,0 +1,13 @@
+<div class="col">
+    <div class="card h-100 shadow">
+        <div class="card-body d-flex flex-column gap-2">
+            <div>
+                <h5 class="card-title">{{ category.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ postCount }} posts</h6>
+            </div>
+            <hr class="my-2" />
+            <p class="card-text mb-2">Temporary description of the {{ category.name }} category.</p>
+            <a href="{{ path('app_home_category_show', { id: category.id }) }}" class="btn btn-primary mt-auto">See posts</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}{{ post.title }} - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="/build/ckeditor/plugins/codesnippet/lib/highlight/styles/default.css" rel="stylesheet">
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('post') }}
+    <script src="/build/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+
+{% block main %}
+    <div class="mb-4 mx-2 mx-md-5">
+        <h2>{{ post.title }}</h2>
+        {% set date = (post.updatedAt != null) ? post.updatedAt : post.publishedAt %}
+        <span class="text-muted d-flex align-items-center gap-1">
+            {{ date|format_datetime('long', 'none', locale='en') }}&nbsp;&nbsp;·&nbsp;
+            {{ post.estimatedTime }} min read&nbsp;&nbsp;·&nbsp;
+            <button class="post-speak btn bg-transparent text-success p-1 d-inline-flex align-items-center gap-1">
+                <i class="bi bi-play-circle-fill"></i>
+                Listen
+            </button>
+        </span>
+    </div>
+    <article class="post-content container col-md-8 col-12">
+        {{ post.content|sanitize_html('app.post_sanitizer') }}
+    </article>
+    <div class="container mt-4">
+        <div class="row justify-content-between">
+            <div class="col-6">
+                <h3>Comments</h3>
+                {% set validComments = post.comments|filter(c => c.valid) %}
+                {% if validComments is empty %}
+                    <span class="text-muted">Be the first to leave a comment</span>
+                {% else %}
+                    <div class="d-flex flex-column gap-4 mt-4">
+                        {% for c in validComments %}
+                            {% include 'components/comment/_card.html.twig' with { comment: c } %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-5 mb-auto sticky-top" style="top: 25px;">
+                <h3 class="mb-4">Leave a comment</h3>
+                {% if is_granted('ROLE_USER') %}
+                    {{ form_start(form, {
+                        attr: {
+                            class: 'd-flex flex-column gap-4'
+                        }
+                    }) }}
+                        {% include 'components/form/_errors.html.twig' with { field: form } %}
+
+                        <div class="form-floating w-100">
+                            {{ form_widget(form.content, {
+                                attr: {
+                                    id: 'typeTextX-1',
+                                    class: 'form-control',
+                                    placeholder: 'Content'
+                                }
+                            }) }}
+                            {{ form_label(form.content, 'Content', {
+                                attr: {
+                                    class: 'form-label'
+                                }
+                            }) }}
+                            {% include 'components/form/_errors.html.twig' with { field: form.content } %}
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Send</button>
+                    {{ form_end(form) }}
+                {% else %}
+                    <span class="text-muted">Sign in to start sharing !</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

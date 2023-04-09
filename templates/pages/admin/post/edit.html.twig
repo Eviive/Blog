@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Edit post - {{ parent() }}{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('preventLeaving') }}
+{% endblock %}
+
+{% block main %}
+    <h1>Edit Post: {{ post.title }}</h1>
+
+    {% include 'pages/admin/post/_form.html.twig' with {'button_label': 'Update'} %}
+
+    <a class="mt-auto" href="{{ path('app_post_index') }}">Back to the list</a>
+{% endblock %}

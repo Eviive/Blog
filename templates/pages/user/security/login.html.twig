@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Sign in - {{ parent() }}{% endblock %}
+
+{% block body %}
+	<section class="flex-grow-1 d-grid align-items-center" style="background-color: #508bfc;">
+		<div class="container py-5 h-100">
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+					<div class="card shadow-2-strong" style="border-radius: 1rem;">
+						<div class="card-body p-5 text-center">
+							<form method="POST" class="d-flex flex-column align-items-center gap-4">
+								<h3 class="mb-3">Sign in</h3>
+
+								{% if error %}
+									<div class="alert alert-danger w-100">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+								{% endif %}
+
+								<div class="form-floating w-100">
+									<input type="email" name="email" value="{{ last_username }}" class="form-control" id="typeEmailX-1" placeholder="Email" autocomplete="email" required />
+									<label for="typeEmailX-1" class="form-label">Email</label>
+								</div>
+
+								<div class="form-floating w-100">
+									<input type="password" name="password" class="form-control" id="typePasswordX-1" placeholder="Password" autocomplete="current-password" required />
+									<label for="typePasswordX-1" class="form-label">Password</label>
+								</div>
+
+								<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+								<button class="btn btn-primary mt-3" type="submit">Sign in</button>
+
+								<a href="{{ path('app_security_register') }}">Not registered yet?</a>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

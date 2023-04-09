@@ -1,0 +1,9 @@
+{% extends 'bundles/TwigBundle/Exception/error.html.twig' %}
+
+{% block main %}
+    {% include 'components/error/_error.html.twig' with {
+        'code': 404,
+        'title': "Page not found",
+        'message': "The page you’re looking for does not exist.",
+    } %}
+{% endblock %}

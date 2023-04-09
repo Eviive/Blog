@@ -1,0 +1,17 @@
+FROM php:8.2.3-fpm-alpine
+
+RUN apk update && \
+	apk add --no-cache $PHPIZE_DEPS bash git zip unzip libzip-dev icu-dev && \
+    \
+    # PHP extensions
+    docker-php-ext-configure intl && \
+	docker-php-ext-install opcache pdo_mysql mysqli zip intl && \
+	docker-php-ext-enable opcache && \
+    \
+    # Composer
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+WORKDIR /var/www/html/Blog
+
+CMD composer install && \
+    php-fpm --nodaemonize

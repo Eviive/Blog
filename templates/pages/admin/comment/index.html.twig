@@ -1,0 +1,38 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Comments validation - {{ parent() }}{% endblock %}
+
+{% block main %}
+    <div class="table-responsive-sm">
+        <table class="table caption-top table-hover text-center align-middle text-nowrap">
+            <caption>Comments validation</caption>
+            <thead>
+                <tr class="fw-bold border-bottom border-dark">
+                    <th>Username</th>
+                    <th>Content</th>
+                    <th>Creation date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in invalidComments %}
+                    <tr>
+                        <td>{{ c.user.username }}</td>
+                        <td class="text-wrap">{{ c.content }}</td>
+                        <td>{{ c.createdAt|format_datetime('medium', 'none', locale='en') }}</td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-2">
+                                {% include 'pages/admin/comment/_validate_form.html.twig' with { comment: c } %}
+                                {% include 'pages/admin/comment/_delete_form.html.twig' with { comment: c } %}
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">No invalid comments found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

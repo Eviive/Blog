@@ -1,0 +1,12 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Categories - {{ parent() }}{% endblock %}
+
+{% block main %}
+    <h3>Categories</h3>
+    <div class="row row-cols-2 row-cols-lg-4 g-4">
+        {% for c in categories %}
+            {% include 'components/category/_card.html.twig' with { category: c[0], postCount: c.postCount } %}
+        {% endfor %}
+    </div>
+{% endblock %}

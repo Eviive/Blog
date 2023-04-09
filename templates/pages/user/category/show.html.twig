@@ -1,0 +1,8 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}{{ category.name }} - {{ parent() }}{% endblock %}
+
+{% block main %}
+    <h3>{{ category.name }}</h3>
+    {% include 'pages/user/post/_paginated.html.twig' with { pagination: pagination } %}
+{% endblock %}

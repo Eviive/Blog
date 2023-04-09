@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}New post - {{ parent() }}{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('preventLeaving') }}
+{% endblock %}
+
+{% block main %}
+    <h1>Create a new Post</h1>
+
+    {% include 'pages/admin/post/_form.html.twig' %}
+
+	<a class="mt-auto" href="{{ path('app_post_index') }}">back to list</a>
+{% endblock %}

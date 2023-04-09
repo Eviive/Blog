@@ -1,0 +1,4 @@
+<form style="flex-basis: 40%; max-width: 120px;" method="post" action="{{ path('app_comment_validate', {'id': comment.id}) }}" onsubmit="return confirm('Are you sure you want to validate this comment?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('validate' ~ comment.id) }}">
+    <button class="btn btn-success w-100">Validate</button>
+</form>

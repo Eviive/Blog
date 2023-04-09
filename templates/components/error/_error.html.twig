@@ -1,0 +1,8 @@
+<div class="d-flex align-items-center justify-content-center flex-grow-1">
+    <div class="text-center">
+        <h1 class="display-1 fw-bold">{{ code|default(status_code) }}</h1>
+        <p class="fs-3"><span class="text-danger">Oops!</span> {{ title|default }}</p>
+        <p class="lead">{{ message|default(status_text) }}</p>
+        <a href="{{ path('app_home_index') }}" class="btn btn-primary">Go Home</a>
+    </div>
+</div>

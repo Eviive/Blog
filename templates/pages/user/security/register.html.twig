@@ -1,0 +1,110 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Register - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <section class="flex-grow-1 d-grid align-items-center" style="background-color: #508bfc;">
+		<div class="container py-5 h-100">
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+					<div class="card shadow-2-strong" style="border-radius: 1rem;">
+						<div class="card-body p-5 text-center">
+							{{ form_start(registerForm, {
+								attr: {
+									class: 'd-flex flex-column align-items-center gap-4'
+								}
+							}) }}
+								<h3 class="mb-3">Register</h3>
+
+								{% include 'components/form/_errors.html.twig' with { field: registerForm } %}
+
+								<div class="form-floating w-100">
+									{{ form_widget(registerForm.email, {
+										attr: {
+											id: 'typeEmailX-1',
+											class: 'form-control',
+											placeholder: 'Email'
+										}
+									}) }}
+									{{ form_label(registerForm.email, 'Email', {
+										attr: {
+											class: 'form-label'
+										}
+									}) }}
+									{% include 'components/form/_errors.html.twig' with { field: registerForm.email } %}
+								</div>
+
+								<div class="form-floating w-100">
+									{{ form_widget(registerForm.username, {
+										attr: {
+											id: 'typeTextX-1',
+											class: 'form-control',
+											placeholder: 'Username'
+										}
+									}) }}
+									{{ form_label(registerForm.username, 'Username', {
+										attr: {
+											class: 'form-label'
+										}
+									}) }}
+									{% include 'components/form/_errors.html.twig' with { field: registerForm.username } %}
+								</div>
+
+								<div class="form-floating w-100">
+									{{ form_widget(registerForm.plainPassword.first, {
+										attr: {
+											id: 'typePasswordX-1',
+											class: 'form-control',
+											placeholder: 'Password'
+										}
+									}) }}
+									{{ form_label(registerForm.plainPassword.first, 'Password', {
+										attr: {
+											class: 'form-label'
+										}
+									}) }}
+									{% include 'components/form/_errors.html.twig' with { field: registerForm.plainPassword.first } %}
+								</div>
+
+								<div class="form-floating w-100">
+									{{ form_widget(registerForm.plainPassword.second, {
+										attr: {
+											id: 'typePasswordX-2',
+											class: 'form-control',
+											placeholder: 'Confirm password'
+										}
+									}) }}
+									{{ form_label(registerForm.plainPassword.second, 'Confirm password', {
+										attr: {
+											class: 'form-label'
+										}
+									}) }}
+									{% include 'components/form/_errors.html.twig' with { field: registerForm.plainPassword.second } %}
+								</div>
+
+								<div class="form-check">
+									{{ form_widget(registerForm.agreeTerms, {
+										attr: {
+											id: 'typeCheckboxX-1',
+											class: 'form-check-input'
+										}
+									}) }}
+									{{ form_label(registerForm.agreeTerms, 'Agree to terms and conditions', {
+										attr: {
+											class: 'form-check-label'
+										}
+									}) }}
+									{% include 'components/form/_errors.html.twig' with { field: registerForm.agreeTerms } %}
+								</div>
+
+								<button class="btn btn-primary mt-2" type="submit">Register</button>
+
+								<a href="{{ path('app_security_login') }}">Already have an account? Sign in</a>
+							{{ form_end(registerForm) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

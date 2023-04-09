@@ -1,0 +1,7 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Posts - {{ parent() }}{% endblock %}
+
+{% block main %}
+    {% include 'pages/user/post/_paginated.html.twig' with { pagination: pagination } %}
+{% endblock %}

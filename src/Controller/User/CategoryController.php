@@ -4,7 +4,10 @@ namespace App\Controller\User;
 
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
+use App\Repository\PostRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,10 +23,19 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_home_category_show', methods: ['GET'])]
-    public function show(Category $category): Response
+    public function show(Category $category, Request $request, PaginatorInterface $paginator, PostRepository $postRepository): Response
     {
+        $pageNumber = $request->query->getInt('page', 1);
+
+        $pagination = $paginator->paginate(
+            $postRepository->findPaginatedByCategoryId($category->getId()),
+            max($pageNumber, 1),
+            10
+        );
+
         return $this->render('pages/user/category/show.html.twig', [
             'category' => $category,
+            'pagination' => $pagination
         ]);
     }
 

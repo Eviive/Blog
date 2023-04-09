@@ -49,7 +49,7 @@ class BlogAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response {
-        $request->getSession()->getFlashBag()->add('warning', $exception->getMessage());
+        $request->getSession()->getFlashBag()->add('warning', ['message' => $exception->getMessage()]);
 
         return parent::onAuthenticationFailure($request, $exception);
     }

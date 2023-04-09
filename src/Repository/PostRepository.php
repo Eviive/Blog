@@ -57,7 +57,7 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findOrderedByCommentsCount(int $except): Query
+    public function findAllExcept(int $except): Query
     {
         return $this->createQueryBuilder('p')
             ->select('p')
@@ -82,13 +82,26 @@ class PostRepository extends ServiceEntityRepository
     public function findBySearch(mixed $search): array
     {
         return $this->createQueryBuilder('p')
-            ->select('p', 'LEVENSHTEIN(p.title,:search) AS distance')
+            ->select('p')
             ->where('p.publishedAt is not NULL')
+            ->orderBy('LEVENSHTEIN(p.title,:search)', 'ASC')
             ->setParameter('search', $search)
-            ->orderBy('distance', 'ASC')
             ->setMaxResults(5)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findPaginatedByCategoryId(int $categoryId): Query
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->join('p.categories', 'c')
+            ->where('p.publishedAt is not NULL')
+            ->andWhere('c.id = :categoryId')
+            ->orderBy('p.createdAt', 'DESC')
+            ->setParameter('categoryId', $categoryId)
+            ->getQuery()
+        ;
     }
 
 //    /**

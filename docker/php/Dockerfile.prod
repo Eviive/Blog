@@ -1,0 +1,43 @@
+# Base image
+FROM php:8.2.3-fpm-alpine AS base
+
+RUN apk update && \
+	apk add --no-cache $PHPIZE_DEPS bash git zip unzip libzip-dev icu-dev && \
+    \
+    # PHP extensions
+    docker-php-ext-configure intl && \
+	docker-php-ext-install opcache pdo_mysql mysqli zip intl && \
+	docker-php-ext-enable opcache && \
+    \
+    # Composer
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Node image
+FROM node:18-alpine AS node
+
+WORKDIR /var/www/html/Blog
+
+COPY package.json package-lock.json webpack.config.js tsconfig.json ./
+COPY assets assets
+
+# Build assets
+RUN npm install && \
+    npm run build
+
+# Final image
+FROM base AS final
+
+WORKDIR /var/www/html/Blog
+
+COPY . .
+COPY --from=node /var/www/html/Blog/public/build public/build
+
+RUN export APP_ENV=prod && \
+    composer install --no-dev --optimize-autoloader --no-interaction && \
+    chown -R www-data:www-data var
+
+EXPOSE 9000
+
+CMD php bin/console cache:warmup && \
+    php bin/console doctrine:migrations:migrate --no-interaction && \
+    php-fpm --nodaemonize

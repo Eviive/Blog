@@ -62,7 +62,7 @@ class PostController extends AbstractController
         $featured = $postRepository->findMostRecentPost();
 
         $pagination = $featured ? $paginator->paginate(
-            $postRepository->findOrderedByCommentsCount($featured->getId()),
+            $postRepository->findAllExcept($featured->getId()),
             max($pageNumber, 1),
             4
         ) : null;
@@ -129,12 +129,11 @@ class PostController extends AbstractController
             return new JsonResponse([], 400);
         }
 
-        $rows = $postRepository->findBySearch($search);
+        $posts = $postRepository->findBySearch($search);
 
         $json = [];
 
-        foreach ($rows as $row) {
-            $post = $row[0];
+        foreach ($posts as $post) {
             $json[] = [
                 'title' => $post->getTitle(),
                 'url' => $this->generateUrl('app_home_post_show', ['slug' => $post->getSlug()])

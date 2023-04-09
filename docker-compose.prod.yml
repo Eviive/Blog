@@ -4,6 +4,7 @@ services:
     database:
         container_name: mariadb
         image: mariadb:10.11.2
+        restart: always
         environment:
             MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
             MARIADB_DATABASE: ${MARIADB_DATABASE}

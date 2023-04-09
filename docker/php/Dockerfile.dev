@@ -11,7 +11,7 @@ RUN apk update && \
     # Composer
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-WORKDIR /var/www/Blog
+WORKDIR /var/www/html/Blog
 
 CMD composer install && \
     php-fpm --nodaemonize

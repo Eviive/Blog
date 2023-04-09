@@ -1,6 +1,6 @@
 FROM node:18-alpine
 
-WORKDIR /var/www/Blog
+WORKDIR /var/www/html/Blog
 
 CMD npm i && \
     npm run watch

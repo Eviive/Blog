@@ -1,6 +1,6 @@
 # Symfony Blog
 
-This is a simple blog application built with the Symfony framework, designed to showcase the basic functionalities of a blogging platform. The application is containerized using Docker, which makes it easy to set up and run locally.
+This is a simple blog application built with Symfony framework, designed to showcase the basic functionalities of a blogging platform. The application is containerized using Docker, which makes it easy to set up and run locally. You can access the live version of the website at [blog.albertv.dev](https://blog.albertv.dev).
 
 ## Features
 
@@ -68,7 +68,7 @@ This will populate the database with some sample blog posts and comments, allowi
 
 ## Accessing the Application
 
-The application should now be accessible at http://localhost:8080. You can access the blog posts and comments by navigating to the relevant pages on the website.
+The application should now be accessible at [localhost:8080](http://localhost:8080). You can access the blog posts and comments by navigating to the relevant pages on the website.
 
 ## Conclusion
 

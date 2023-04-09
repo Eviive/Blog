@@ -64,13 +64,13 @@ class PostController extends AbstractController
 
                 $postRepository->save($post, true);
 
-                $flashContent = ['message' => 'Post updated successfully.'];
-
                 if ($post->getPublishedAt()) {
                     $flashContent = [
                         'message' => 'Post updated successfully, click here to see it.',
                         'link' => $this->generateUrl('app_home_post_show', ['slug' => $post->getSlug()])
                     ];
+                } else {
+                    $flashContent = ['message' => 'Post updated successfully.'];
                 }
 
                 $this->addFlash('success', $flashContent);
